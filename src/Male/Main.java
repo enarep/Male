@@ -1,4 +1,4 @@
-package Male;
+
 
 import java.util.*;
 
@@ -339,11 +339,12 @@ public class Main {
         if (nupp == "ratsuKlass"){
 
             if ((Math.abs(käik2[1] - käik2[0]) == 8 || Math.abs(käik2[1] - käik2[0]) == 8 || Math.abs(käik2[1] - käik2[0]) == 19 || Math.abs(käik2[1] - käik2[0]) == 21) && ((värv == 0 && kasTühiRuut != 3 && kasTühiRuut != 8) || (värv == 1 && kasTühiRuut != 27 && kasTühiRuut != 32)) && värv != värv2){  //arvutab koordinaatide järgi kas käik on võimalik
-
+				
                 return 1;
 
             }else{
-
+				
+				
                 return 0;
             }
 
@@ -352,43 +353,43 @@ public class Main {
               - kedagi ei tohialguse ja lõpu vahel olla
               - samasse kohta ei tohi astuda
               - oma nuppe ei saa võtta (ja kuningat)
-
               */
         if (nupp == "vankerKlass"){
-            if (Math.abs(käik2[1] - käik2[0]) % 10 == 0){    //vertikaalne liikumine
-                //mingi loop peab kontrollima et kedagi vahel pole
-
-                if (akt1 > kuhu1) {                     //kui sihtmärkruut on suurema rea numbriga
-                    int i = akt1 - 1;
-                    while (i > kuhu1 + 1) {
-
-                        if (lauaseis[i][kuhu2] != 0) {
-
-                            return 0;
-                        }
-                        i--;
-                    }
-                }else{                                 //kui on väiksemaga
-                    int i = akt1 - 1;        // mõtle siia midagi välja
-                    while (i < kuhu1 + 1) {
-
-                        if (lauaseis[i][kuhu2] != 0) {
-
-                            return 0;
-                        }
-                        i++;
-                    }
-                }
-                System.out.println("tere olen vanker");
-                return 1;                                //nested if lausega on parem tingimusi vaadata vist
+        	
+            if (Math.abs(käik2[1] - käik2[0]) % 10 == 0){ 
+            	
+            	//vertikaalne liikumine
+            	System.out.println(Math.abs(käik2[1] - käik2[0]) % 10);
+            	if(akt1 > kuhu1){
+            		
+            		for (int i = akt1-1; i > kuhu1; i--){
+            			System.out.println("Proovin: " + i);
+            			if (lauaseis[i-1][kuhu2-1] != 0){
+            				System.out.println("siin on nupp: " + lauaseis[i-1][kuhu2-1]);
+            				return 0;
+            			}
+            		}
+            		
+            		if (värv != värv2){
+            			return 1;
+            		}
+            		
+            	}else if (akt1 < kuhu1){  // akt1<kuhu1
+            		
+            		for (int i = akt1; i < kuhu1; i++){   // see korda teha
+            			System.out.println("Proovin: " + i);
+            			if (lauaseis[i-1][kuhu2-1] != 0){
+            				System.out.println("siin on nupp: " + lauaseis[i-1][kuhu2-1]);
+            				return 0;
+            			}
+            		}
+            	}
+            	
+            	
             }
-
-            if (Math.abs(käik2[1] - käik2[0]) < 8){    //horisontaalne
-
-
-            }
+                
         }
-
+		System.out.println("VANKER JÕUDIS SIIA!!");
         return 0;
 
     }
