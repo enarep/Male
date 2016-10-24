@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 
@@ -126,7 +127,10 @@ public class Main {
         int kelleKord = 0;
         int turnCounter = 1;
 
+		
 
+
+		
         while (true) {
 
             System.out.println(turnCounter + ". ring");
@@ -155,7 +159,9 @@ public class Main {
 
             sisemineWhile:
             while (true) {
-
+            	
+				tuleTabel(lauaseis);
+				
                 System.out.print("Sisesta soovitud käik: ");
                 käik = sisend.nextInt();
 
@@ -357,6 +363,35 @@ public class Main {
             }
         }
 
+    }
+    
+    public static void tuleTabel(int[][] lauaseis) {
+    	
+    	//valge tuli
+    	int tuli = 0;
+    	int kasTuli = 0;
+    	for (int rida = 0; rida < lauaseis.length; rida++) {
+            for (int veerg = 0; veerg < lauaseis[rida].length; veerg++) {
+                
+                if (rida > 0 && veerg > 0){
+	                if (lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18){
+	                	
+	                	kasTuli = 1;
+	                }else{
+	                	
+	                	kasTuli = 0;
+	                }
+                }
+                
+                
+                
+                
+                
+                System.out.print(kasTuli);
+            }
+            System.out.println();
+        }
+    	
     }
 
 
