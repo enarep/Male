@@ -373,21 +373,55 @@ public class Main {
     	for (int rida = 0; rida < lauaseis.length; rida++) {
             for (int veerg = 0; veerg < lauaseis[rida].length; veerg++) {
                 
+                try {
+                	System.out.println("RIDA: " + rida + ", VEERG: " + veerg + ", TULD ANNAB: " + lauaseis[rida-1][veerg-1] + " või " + lauaseis[rida-1][veerg+1]);
+	                if ((lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18) || (lauaseis[rida-1][veerg+1] > 9 && lauaseis[rida-1][veerg+1] < 18)){
+		                	
+	                	kasTuli = 1;
+		                System.out.println("TULI");
+		            }else{
+		            	if(veerg == 0){
+		            		if (lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18){
+		            			kasTuli = 1;
+		            		}
+		            	}else{
+		                	
+		                	kasTuli = 0;
+		                	System.out.println("OK");
+		            	}
+		            }
+		        } catch (Exception e) {
+		        	
+		        	//System.out.println("Üks jääb piiridest välja aga mis siis");
+		        }
+                /*
+                if (veerg == 0 && rida > 0){			//et vältida outofbounds errorit
+                	if (lauaseis[rida-1][veerg+1] > 9 && lauaseis[rida-1][veerg+1] < 18){
+                		
+                		kasTuli = 1;
+                		
+                	}
+                	
+                	
+                }
+                
                 if (rida > 0 && veerg > 0){
-	                if (lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18){
+	                if ((lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18) ||(lauaseis[rida-1][veerg+1] > 9 && lauaseis[rida-1][veerg+1] < 18)){
 	                	
 	                	kasTuli = 1;
+	                	
 	                }else{
 	                	
 	                	kasTuli = 0;
+	                	
 	                }
                 }
                 
+                */
                 
                 
                 
-                
-                System.out.print(kasTuli);
+                System.out.println(kasTuli);
             }
             System.out.println();
         }
