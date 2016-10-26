@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 
@@ -126,7 +127,10 @@ public class Main {
         int kelleKord = 0;
         int turnCounter = 1;
 
+		
 
+
+		
         while (true) {
 
             System.out.println(turnCounter + ". ring");
@@ -155,7 +159,9 @@ public class Main {
 
             sisemineWhile:
             while (true) {
-
+            	
+				tuleTabel(lauaseis);
+				
                 System.out.print("Sisesta soovitud käik: ");
                 käik = sisend.nextInt();
 
@@ -358,7 +364,161 @@ public class Main {
         }
 
     }
+    
+    public static void tuleTabel(int[][] lauaseis) {
+    	
+    	//valge tuli
+    	int tuli = 0;
+    	int kasTuli = 0;
+    	for (int rida = 0; rida < lauaseis.length; rida++) {
+            for (int veerg = 0; veerg < lauaseis[rida].length; veerg++) {
+                
+                
+                //etturite TULI
+                
+                kasTuli = 0;
+                try
+                {
+	                if (veerg == 0 && rida > 0)
+	                {
+	                	if (lauaseis[rida-1][veerg+1] > 9 && lauaseis[rida-1][veerg+1] < 18){
+	                		
+	                		
+	            			kasTuli = 1;
+			                //System.out.println("TULI");
+	                		
+	                	}
+	                }
+	                
+	                else if (veerg == 7 && rida > 0)
+	                {
+	                	if (lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18){
+	                		
+	                		
+	            			kasTuli = 1;
+			                //System.out.println("TULI");
+			                
+	                		
+	                	}
+	                }
+	                
+	                
+	                
+	                
+	            	//System.out.println("RIDA: " + rida + ", VEERG: " + veerg + ", TULD ANNAB: " + lauaseis[rida-1][veerg-1] + " või " + lauaseis[rida-1][veerg+1]);
+	                else if ((lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18) || (lauaseis[rida-1][veerg+1] > 9 && lauaseis[rida-1][veerg+1] < 18))
+	                {
+		                	
+	                	kasTuli = 1;
+	                	
+		                //System.out.println("b");
+		                
+		            }
+		            
+		            else
+		            {
+		            	
+	                	kasTuli = 0;
+	                	//System.out.println("OK");
+		            	
+		            }
 
+                }
+                
+                catch (Exception e){}
+                
+                
+                //ratsude TULI
+                
+                try
+                {
+                	if (onLaual(rida+1, veerg+2)&&(lauaseis[rida+1][veerg+2] == 3 || lauaseis[rida+1][veerg+2] == 8))
+                	{
+                		kasTuli = 1;
+                		//System.out.println("rida: " + rida + ", veerg: " + veerg);
+                	}
+                	else if (onLaual(rida-1, veerg+2)&&(lauaseis[rida-1][veerg+2] == 3 || lauaseis[rida-1][veerg+2] == 8))
+                	{
+                		kasTuli = 1;
+                	}
+                	else if (onLaual(rida+1, veerg-2)&&(lauaseis[rida+1][veerg-2] == 3 || lauaseis[rida+1][veerg-2] == 8))
+                	{
+                		kasTuli = 1;
+                	}
+                	else if (onLaual(rida-1, veerg-2)&&(lauaseis[rida-1][veerg-2] == 3 || lauaseis[rida-1][veerg-2] == 8))
+                	{
+                		kasTuli = 1;
+                	}
+                	else if (onLaual(rida+2, veerg+1)&&(lauaseis[rida+2][veerg+1] == 3 || lauaseis[rida+2][veerg+1] == 8))
+                	{
+                		kasTuli = 1;
+                		//System.out.print("c");
+                	}
+                	else if (onLaual(rida-2, veerg+1)&&(lauaseis[rida-2][veerg+1] == 3 || lauaseis[rida-2][veerg+1] == 8))
+                	{
+                		kasTuli = 1;
+                	}
+                	else if (onLaual(rida+2, veerg-1)&&(lauaseis[rida+2][veerg-1] == 3 || lauaseis[rida+2][veerg-1] == 8))
+                	{
+                		kasTuli = 1;
+                	}
+                	else if (onLaual(rida-2, veerg-1)&&(lauaseis[rida-2][veerg-1] == 3 || lauaseis[rida-2][veerg-1] == 8))
+                	{
+                		kasTuli = 1;
+                	}
+                }
+                catch (Exception e) {}
+                
+                //vankrite TULI (+ lipp)
+                Vanker1For:
+         		for (int k = rida-1; k == 0; k--) //kontrollib mööda sama veergu ülespoole
+         		{
+         			if (lauaseis[k][veerg] == 2 || lauaseis[k][veerg] == 9 || lauaseis[k][veerg] == 5)
+         			{
+         				kasTuli = 1;
+          			}
+         			else if (lauaseis[k][veerg] != 0)
+         			{
+         				break Vanker1For;
+         			}
+         		}
+         		
+         		Vanker2For:
+         		for (int k = rida+1; k == 0; k++) //kontrollib mööda sama veergu allapoole
+         		{
+         			if (lauaseis[k][veerg] == 2 || lauaseis[k][veerg] == 9 || lauaseis[k][veerg] == 5)
+         			{
+         				kasTuli = 1;
+         			}
+         			else if (lauaseis[k][veerg] != 0)
+         			{
+         				break Vanker2For;
+         			}
+         		}
+                
+                
+                /*if (rida == 6 && veerg == 2)
+                {
+                	System.out.print("_siia peaks tuld andma " + lauaseis[rida-2][veerg+1] + "_ONLAUAL: " + onLaual(rida-2, veerg+1));
+                	
+                }*/
+                System.out.print(kasTuli);
+            }
+            System.out.println();
+        }
+    	
+    	
+    	
+    }
+	
+	public static boolean onLaual(int rida, int veerg){
+		
+		if (rida < 0 || veerg < 0 || rida > 7 || veerg > 7)
+		{
+			return false;
+		}
+		return true;
+	}
 
     public static boolean käiguKontroll(int aktiivneNupp, int[] käik2, HashMap malendid, int värv, int värv2, int kasTühiRuut, String nupp, int kuhu1, int kuhu2, int akt1, int akt2, int[][] lauaseis) {
         //KÄIGUKONTROLL
