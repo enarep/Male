@@ -2,6 +2,7 @@ package Male_v2;
 
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -21,6 +22,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import static Male_v2.Game.k2ik;
+
 
 public class Aken {
 
@@ -35,6 +38,8 @@ public class Aken {
     VBox vb;
     Button btn;
 
+
+
     //int[] test = {0, 1};
 
     Aken(){
@@ -42,6 +47,10 @@ public class Aken {
         looAken();
         new Nupud();
         new Laud();
+
+
+
+
 
 
 
@@ -90,7 +99,23 @@ public class Aken {
         aStage.setScene(aScene);
         aStage.show();
 
-        btn.setOnAction(event -> System.out.println(Game.k2ik()[0]));
+        final Task task;
+        task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+
+
+                System.out.println(k2ik()[0]);
+
+
+
+                return null;
+            }
+        };
+
+        btn.setOnAction(event -> new Thread(task).start());
+
+
 
 
 
