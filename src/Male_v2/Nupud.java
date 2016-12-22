@@ -10,40 +10,42 @@ import java.util.HashMap;
 
 class Nupud {
 
-    Ettur ettur10;
-    Ettur ettur11;
-    Ettur ettur12;
-    Ettur ettur13;
-    Ettur ettur14;
-    Ettur ettur15;
-    Ettur ettur16;
-    Ettur ettur17;
-    Ettur ettur18;
-    Ettur ettur19;
-    Ettur ettur20;
-    Ettur ettur21;
-    Ettur ettur22;
-    Ettur ettur23;
-    Ettur ettur24;
-    Ettur ettur25;
-    Ratsu ratsu3;
-    Ratsu ratsu8;
-    Ratsu ratsu27;
-    Ratsu ratsu32;
-    Vanker vanker2;
-    Vanker vanker9;
-    Vanker vanker26;
-    Vanker vanker33;
-    Oda oda4;
-    Oda oda7;
-    Oda oda28;
-    Oda oda31;
-    Lipp lipp5;
-    Lipp lipp29;
-    Kuningas kuningas6;
-    Kuningas kuningas30;
+    static Ettur ettur10;
+    static Ettur ettur11;
+    static Ettur ettur12;
+    static Ettur ettur13;
+    static Ettur ettur14;
+    static Ettur ettur15;
+    static Ettur ettur16;
+    static Ettur ettur17;
+    static Ettur ettur18;
+    static Ettur ettur19;
+    static Ettur ettur20;
+    static Ettur ettur21;
+    static Ettur ettur22;
+    static Ettur ettur23;
+    static Ettur ettur24;
+    static Ettur ettur25;
+    static Ratsu ratsu3;
+    static Ratsu ratsu8;
+    static Ratsu ratsu27;
+    static Ratsu ratsu32;
+    static Vanker vanker2;
+    static Vanker vanker9;
+    static Vanker vanker26;
+    static Vanker vanker33;
+    static Oda oda4;
+    static Oda oda7;
+    static Oda oda28;
+    static Oda oda31;
+    static Lipp lipp5;
+    static Lipp lipp29;
+    static Kuningas kuningas6;
+    static Kuningas kuningas30;
 
-    private HashMap<Integer, Malend> malendid;
+
+
+    public static HashMap<Integer, Malend> malendid;
 
 
 
@@ -83,7 +85,7 @@ class Nupud {
 
     }
 
-    private void initNupud() {
+    public static HashMap<Integer, Malend> initNupud() {
 
         ettur10 = new Ettur(10);
         ettur11 = new Ettur(11);
@@ -152,6 +154,8 @@ class Nupud {
         malendid.put(29, lipp29);
         malendid.put(6, kuningas6);
         malendid.put(30, kuningas30);
+
+        return malendid;
 
     }
 

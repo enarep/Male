@@ -11,14 +11,14 @@ import static Male_v2.Aken.sisend;
 public class Game {
 
 
-    public static int[] k2ik(){
+    public static int k2ik(){
 
-        String koos = sisend.getText();
-        int kust = Integer.parseInt(koos.substring(0, 2));
-        int kuhu = Integer.parseInt(koos.substring(2, 4));
-        int[] move = {kust, kuhu};
+        //System.out.println(sisend.getText());
+        int move = Integer.parseInt(sisend.getText());
         sisend.clear();
         Platform.runLater(() -> sisend.requestFocus());
+
+
 
         return move;
     }
