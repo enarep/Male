@@ -164,6 +164,7 @@ class Nupud {
 
         int värv;
         int number;
+        int[][] tuli;
         String pilt;
 
     }
@@ -175,6 +176,7 @@ class Nupud {
             number = x;
             pilt = nupupildid[x-2];
             if (number > 9 && number < 18) {
+                tuli = new int[][]{{1, -1}, {1, 1}}; //suhteline rida, veerg
                 värv = 0;
             } else if (number > 17 && number < 26) {
                 värv = 1;
