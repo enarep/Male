@@ -4,6 +4,7 @@ package Male_v2;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -24,13 +25,16 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static Male_v2.Game.k2ik;
 import static Male_v2.Laud.nupumap;
 import static Male_v2.Nupud.ettur10;
 import static Male_v2.Nupud.initNupud;
 import static Male_v2.Nupud.malendid;
+import static java.lang.Integer.parseInt;
 
 
 public class Aken {
@@ -45,6 +49,7 @@ public class Aken {
     static TextField sisend;
     VBox vb;
     Button btn;
+    Button testbtn;
     String welcome = "Käimiseks kirjuta allolevasse kasti " +
             "soovitav manööver neljakohalise numbrina, kus esimesed kaks " +
             "tähistavad algus- ja viimased kaks lõpuruutu.";
@@ -53,6 +58,7 @@ public class Aken {
     int kelleKord = 0;
     int turnCounter = 1;
     int[][] lauaseis;
+    int recCount = 0;
 
 
 
@@ -85,7 +91,7 @@ public class Aken {
         sisend = new TextField();
 
         btn = new Button("Sisesta käik");
-
+        testbtn = new Button("test");
 
         Platform.runLater(() -> sisend.requestFocus());
 
@@ -109,7 +115,7 @@ public class Aken {
         looIO();
 
         vb = new VBox();
-        vb.getChildren().addAll(laud, logi, sisend, btn);
+        vb.getChildren().addAll(laud, logi, sisend, btn, testbtn);
         vb.setSpacing(10);
         vb.setPadding(new Insets(10, 0, 10, 0));
 
@@ -118,14 +124,19 @@ public class Aken {
         aStage.setScene(aScene);
         aStage.show();
 
-        btn.setOnAction(event -> male());
+        btn.setOnAction(event -> male(0));
+        testbtn.setOnAction(event -> {
+            while(recCount < 10000){
+                male(1);
+            }
+        });
+
 
 
 
 
 
     }
-
 
 
 
@@ -191,11 +202,11 @@ public class Aken {
 
     private void log(String logitekst) {
 
-        logi.appendText(">" + logitekst + "\n");
+        //logi.appendText(">" + logitekst + "\n");
 
     }
 
-    public void male(){
+    public void male(int x){
 
         // LAUA LOOMINE
 
@@ -247,7 +258,7 @@ public class Aken {
             //MÄNGU KÄIK
 
 
-            int x = 0;
+
 
         }
 
@@ -271,10 +282,9 @@ public class Aken {
             // klaviatuuriga sisestatakse käik
 
 
-            // while tsükli sees talle ei meeldinud nende muutujate deklareerimine
+
             int akt2;
             int akt1;
-            Scanner sisend = new Scanner(System.in);
             int käik;
             int[] käik2 = new int[2];
             int aktiivneNupp;
@@ -283,6 +293,7 @@ public class Aken {
             int kuhu2;
             int värv;
             int värv2;
+            int[][] lauaseisAjutine;
             String nupp = "";
 
             sisemineWhile:
@@ -291,10 +302,21 @@ public class Aken {
 
 
                 //System.out.print("Sisesta soovitud käik: ");
+                if (x == 0) {
+                    käik = k2ik();
+                } else {
 
-                käik = k2ik();
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    recCount++;
+                    System.out.println("reccount" + recCount);
 
-
+                    käik = testk2ik();
+                }
+                //System.out.println(valgeTuleTabel(lauaseis)[2][2]);
 
                 // käik lõhutakse ära ja lisatakse massiivi
                 käik2[0] = käik / 100;
@@ -326,6 +348,7 @@ public class Aken {
                 if(aktiivneNupp == 0){
                     System.out.println("Nii ei saa");
                     log("Nii ei saa");
+                    //testMale(x);
                     return;
                 }
                 //käiguKontroll
@@ -336,6 +359,8 @@ public class Aken {
                 if (värv != kelleKord) {
                     System.out.println("Proovi ikka oma nupuga");
                     log("Proovi ikka oma nupuga");
+
+                    //testMale(x);
                     return;
                 }
 
@@ -385,9 +410,44 @@ public class Aken {
                 if (käiguKontroll(aktiivneNupp, käik2, initNupud(), värv, värv2, lauaseis[kuhu1 - 1][kuhu2 - 1], nupp, kuhu1, kuhu2, akt1, akt2, lauaseis) == false) {
                     System.out.println("Nii ei saa");  //läheb uuele ringile
                     log("Nii ei saa");
+
+
                     return;
+
+                } else if (värv == 0 && mustTuleTabel(lauaseis)[otsiNupuAsukoht(6, lauaseis)[0]][otsiNupuAsukoht(6, lauaseis)[1]] == 1){
+
+                    lauaseisAjutine = lauaseis;
+                    lauaseisAjutine[akt1 - 1][akt2 - 1] = 0;               //ajutiselt k'ib et testida kas tuli on kadunud
+                    lauaseisAjutine[kuhu1 - 1][kuhu2 - 1] = aktiivneNupp;
+
+                    if (mustTuleTabel(lauaseisAjutine)[otsiNupuAsukoht(6, lauaseisAjutine)[0]][otsiNupuAsukoht(6, lauaseisAjutine)[1]] == 1){
+                        System.out.println("Kuningas tules");
+
+                        return;
+                    }
+
+                    System.out.println("Varjasid tule, hea töö");
+                    break sisemineWhile;
+
+                } else if (värv == 1 && valgeTuleTabel(lauaseis)[otsiNupuAsukoht(30, lauaseis)[0]][otsiNupuAsukoht(30, lauaseis)[1]] == 1) {
+
+                    lauaseisAjutine = lauaseis;
+                    lauaseisAjutine[akt1 - 1][akt2 - 1] = 0;               //ajutiselt k'ib et testida kas tuli on kadunud
+                    lauaseisAjutine[kuhu1 - 1][kuhu2 - 1] = aktiivneNupp;
+
+                    if (valgeTuleTabel(lauaseisAjutine)[otsiNupuAsukoht(30, lauaseisAjutine)[0]][otsiNupuAsukoht(30, lauaseisAjutine)[1]] == 1){
+                        System.out.println("Kuningas tules");
+
+                        return;
+                    }
+
+                    System.out.println("Varjasid tule, hea töö");
+                    break sisemineWhile;
+
                 } else {
+
                     break sisemineWhile;  //murrab välja ja liigub edasi
+
                 }
 
 
@@ -397,6 +457,10 @@ public class Aken {
             //käimine
             lauaseis[akt1 - 1][akt2 - 1] = 0;
             lauaseis[kuhu1 - 1][kuhu2 - 1] = aktiivneNupp;
+
+
+
+
 
 
             for (int rida3 = 0; rida3 < lauaseis.length; rida3++) {
@@ -417,7 +481,8 @@ public class Aken {
 
             }
 
-            liigutaFX(aktiivneNupp, kuhu2, kuhu1, v6etavNupp);
+            liigutaFX(aktiivneNupp, kuhu2, kuhu1, v6etavNupp, x);
+
 
             return;
 
@@ -425,12 +490,26 @@ public class Aken {
 
     }
 
-    public static void mustTuleTabel(int[][] lauaseis) {
+
+    private int testk2ik() {
+
+        String y = "";
+        int r;
+        for (int i = 0; i < 4; i++){
+            r = ThreadLocalRandom.current().nextInt(1, 9);
+            y += r;
+        }
+
+        return parseInt(y);
+    }
+
+    public static int[][] mustTuleTabel(int[][] lauaseis) {
 
 
         int kasTuli;
         int odasum = 0;
         int vankersum = 0;
+        int[][] tuli = new int[8][8];
 
         for (int rida = 0; rida < lauaseis.length; rida++) {
             for (int veerg = 0; veerg < lauaseis[rida].length; veerg++) {
@@ -540,21 +619,25 @@ public class Aken {
                 //kontrollib mööda sama veergu ülespoole
                 try {
                     int k = rida - 1;
+                    vanker1:
                     while (k != -1) {
                         //System.out.println("k = " + k);
-                        vankersum += lauaseis[k][veerg];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
+                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
+                        vankersum += lauaseis[k][veerg];
+                        //System.out.println("Lisan: " + lauaseis[k][veerg]);
                         //System.out.println("vankersum = " + vankersum);
                         if (lauaseis[k][veerg] != 0) {
+                            //System.out.println("-->" + vankersum);
 
                             if (vankersum == 26 || vankersum == 33 || vankersum == 29) {
                                 kasTuli = 1;
-
                             }
+                            break vanker1;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
+
                         k--;
                     }
                 } catch (Exception e) {}
@@ -563,11 +646,12 @@ public class Aken {
                 //kontrollib mööda sama veergu allapoole
                 try {
                     int k = rida + 1;
+                    vanker2:
                     while (k != 8) {
                         //System.out.println("k = " + k);
-                        vankersum += lauaseis[k][veerg];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
+                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
+                        vankersum += lauaseis[k][veerg];
                         //System.out.println("vankersum = " + vankersum);
                         if (lauaseis[k][veerg] != 0) {
 
@@ -575,7 +659,9 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break vanker2;
                         }
+
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
                         k++;
@@ -586,11 +672,12 @@ public class Aken {
                 //kontrollib mööda sama rida vasakule
                 try {
                     int k = veerg - 1;
+                    vanker3:
                     while (k != -1) {
                         //System.out.println("k = " + k);
-                        vankersum += lauaseis[rida][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
+                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
+                        vankersum += lauaseis[rida][k];
                         //System.out.println("vankersum = " + vankersum);
                         if (lauaseis[rida][k] != 0) {
 
@@ -598,7 +685,9 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break vanker3;
                         }
+
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
                         k--;
@@ -609,11 +698,12 @@ public class Aken {
                 //kontrollib mööda sama rida paremale
                 try {
                     int k = veerg + 1;
+                    vanker4:
                     while (k != 8) {
                         //System.out.println("k = " + k);
-                        vankersum += lauaseis[rida][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
+                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
+                        vankersum += lauaseis[rida][k];
                         //System.out.println("vankersum = " + vankersum);
                         if (lauaseis[rida][k] != 0) {
 
@@ -621,9 +711,11 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break vanker4;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
+
                         k++;
                     }
                 } catch (Exception e) {}
@@ -636,6 +728,7 @@ public class Aken {
                 try {
                     int k = veerg - 1;
                     int m = rida - 1;
+                    oda1:
                     while (k != 0 || m != 0) {
                         //System.out.println("k = " + k);
                         odasum += lauaseis[m][k];
@@ -648,6 +741,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break oda1;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -661,6 +755,7 @@ public class Aken {
                 try {
                     int k = veerg + 1;
                     int m = rida - 1;
+                    oda2:
                     while (k != 8 || m != 0) {
                         //System.out.println("k = " + k);
                         odasum += lauaseis[m][k];
@@ -673,6 +768,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break oda2;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -686,6 +782,7 @@ public class Aken {
                 try {
                     int k = veerg - 1;
                     int m = rida + 1;
+                    oda3:
                     while (k != 0 || m != 8) {
                         //System.out.println("k = " + k);
                         odasum += lauaseis[m][k];
@@ -698,6 +795,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break oda3;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -711,6 +809,7 @@ public class Aken {
                 try {
                     int k = veerg + 1;
                     int m = rida + 1;
+                    oda4:
                     while (k != 8 || m != 8) {
                         //System.out.println("k = " + k);
                         odasum += lauaseis[m][k];
@@ -723,6 +822,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break oda4;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -737,36 +837,35 @@ public class Aken {
 
                 try
                 {
-                    if (onLaual(rida+1, veerg-1)&&(lauaseis[rida+1][veerg-1] == 29))
+                    if (onLaual(rida+1, veerg-1)&&(lauaseis[rida+1][veerg-1] == 30))
                     {
                         kasTuli = 1;
                     }
-                    else if (onLaual(rida+1, veerg)&&(lauaseis[rida+1][veerg] == 29))
+                    else if (onLaual(rida+1, veerg)&&(lauaseis[rida+1][veerg] == 30))
                     {
                         kasTuli = 1;
                     }
-                    else if (onLaual(rida+1, veerg+1)&&(lauaseis[rida+1][veerg+1] == 29))
+                    else if (onLaual(rida+1, veerg+1)&&(lauaseis[rida+1][veerg+1] == 30))
                     {
                         kasTuli = 1;
                     }
-                    else if (onLaual(rida, veerg-1)&&(lauaseis[rida][veerg-1] == 29))
+                    else if (onLaual(rida, veerg-1)&&(lauaseis[rida][veerg-1] == 30))
                     {
                         kasTuli = 1;
                     }
-                    else if (onLaual(rida, veerg+1)&&(lauaseis[rida][veerg+1] == 29))
-                    {
-                        kasTuli = 1;
-                        //System.out.print("c");
-                    }
-                    else if (onLaual(rida-1, veerg-1)&&(lauaseis[rida-1][veerg-1] == 29))
+                    else if (onLaual(rida, veerg+1)&&(lauaseis[rida][veerg+1] == 30))
                     {
                         kasTuli = 1;
                     }
-                    else if (onLaual(rida-1, veerg)&&(lauaseis[rida-1][veerg] == 29))
+                    else if (onLaual(rida-1, veerg-1)&&(lauaseis[rida-1][veerg-1] == 30))
                     {
                         kasTuli = 1;
                     }
-                    else if (onLaual(rida-1, veerg+1)&&(lauaseis[rida-1][veerg+1] == 29))
+                    else if (onLaual(rida-1, veerg)&&(lauaseis[rida-1][veerg] == 30))
+                    {
+                        kasTuli = 1;
+                    }
+                    else if (onLaual(rida-1, veerg+1)&&(lauaseis[rida-1][veerg+1] == 30))
                     {
                         kasTuli = 1;
                     }
@@ -774,22 +873,23 @@ public class Aken {
                 catch (Exception e) {}
 
 
-
-                System.out.print(kasTuli + "\t");
+                tuli[rida][veerg] = kasTuli;
+                //System.out.print(kasTuli + "\t");
             }
-            System.out.println();
+            //System.out.println();
         }
 
-
+        return tuli;
 
     }
 
-    public static void valgeTuleTabel(int[][] lauaseis) {
+    public static int[][] valgeTuleTabel(int[][] lauaseis) {
 
 
         int kasTuli;
         int vankersum = 0;
         int odasum = 0;
+        int[][] tuli = new int[8][8];
 
         for (int rida = 0; rida < lauaseis.length; rida++) {
             for (int veerg = 0; veerg < lauaseis[rida].length; veerg++) {
@@ -899,6 +999,7 @@ public class Aken {
                 //kontrollib mööda sama veergu ülespoole
                 try {
                     int k = rida - 1;
+                    vanker1:
                     while (k != -1) {
                         //System.out.println("k = " + k);
                         vankersum += lauaseis[k][veerg];
@@ -911,6 +1012,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break vanker1;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -922,6 +1024,7 @@ public class Aken {
                 //kontrollib mööda sama veergu allapoole
                 try {
                     int k = rida + 1;
+                    vanker2:
                     while (k != 8) {
                         //System.out.println("k = " + k);
                         vankersum += lauaseis[k][veerg];
@@ -934,6 +1037,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break vanker2;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -945,6 +1049,7 @@ public class Aken {
                 //kontrollib mööda sama rida vasakule
                 try {
                     int k = veerg - 1;
+                    vanker3:
                     while (k != -1) {
                         //System.out.println("k = " + k);
                         vankersum += lauaseis[rida][k];
@@ -957,6 +1062,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break vanker3;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -968,6 +1074,7 @@ public class Aken {
                 //kontrollib mööda sama rida paremale
                 try {
                     int k = veerg + 1;
+                    vanker4:
                     while (k != 8) {
                         //System.out.println("k = " + k);
                         vankersum += lauaseis[rida][k];
@@ -980,6 +1087,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break vanker4;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -995,6 +1103,7 @@ public class Aken {
                 try {
                     int k = veerg - 1;
                     int m = rida - 1;
+                    oda1:
                     while (k != 0 || m != 0) {
                         //System.out.println("k = " + k);
                         odasum += lauaseis[m][k];
@@ -1007,6 +1116,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break oda1;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -1020,6 +1130,7 @@ public class Aken {
                 try {
                     int k = veerg + 1;
                     int m = rida - 1;
+                    oda2:
                     while (k != 8 || m != 0) {
                         //System.out.println("k = " + k);
                         odasum += lauaseis[m][k];
@@ -1032,6 +1143,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break oda2;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -1045,6 +1157,7 @@ public class Aken {
                 try {
                     int k = veerg - 1;
                     int m = rida + 1;
+                    oda3:
                     while (k != 0 || m != 8) {
                         //System.out.println("k = " + k);
                         odasum += lauaseis[m][k];
@@ -1057,6 +1170,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break oda3;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -1070,6 +1184,7 @@ public class Aken {
                 try {
                     int k = veerg + 1;
                     int m = rida + 1;
+                    oda4:
                     while (k != 8 || m != 8) {
                         //System.out.println("k = " + k);
                         odasum += lauaseis[m][k];
@@ -1082,6 +1197,7 @@ public class Aken {
                                 kasTuli = 1;
 
                             }
+                            break oda4;
                         }
                         //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
                         //+ " kasblokitud? " + blokitud);
@@ -1133,11 +1249,14 @@ public class Aken {
                 catch (Exception e) {}
 
                 System.out.print(kasTuli + "\t");
+
+                tuli[rida][veerg] = kasTuli;
+
             }
             System.out.println();
         }
 
-
+        return tuli;
 
     }
 
@@ -1151,7 +1270,7 @@ public class Aken {
     }
 
 
-    private void liigutaFX(int aktiivneNupp, int kuhu2, int kuhu1, int v6etavNupp) {
+    private void liigutaFX(int aktiivneNupp, int kuhu2, int kuhu1, int v6etavNupp, int x) {
 
 
         System.out.println("aktiivne: " + aktiivneNupp);
@@ -1167,6 +1286,9 @@ public class Aken {
         Aken.muutuvlaud.getChildren().remove(nupumap.get(aktiivneNupp-2));            //eemalda laualt
         Aken.muutuvlaud.add(nupumap.get(aktiivneNupp-2), kuhu2-1, kuhu1-1);  //pane lauale tagasi
 
+
+
+
     }
 
 
@@ -1177,273 +1299,66 @@ public class Aken {
     public static boolean käiguKontroll(int aktiivneNupp, int[] käik2, HashMap malendid, int värv, int värv2, int kasTühiRuut, String nupp, int kuhu1, int kuhu2, int akt1, int akt2, int[][] lauaseis) {
         //KÄIGUKONTROLL
 
-        if (nupp.equals("etturKlass")) {
+        try{                                        //et testimisega outofbounds erroreid ei tuleks
 
-            if (värv == 0) {
+            if (nupp.equals("etturKlass")) {
 
-                if ((käik2[0] - käik2[0] % 10) / 10 == 2) {   //ettur saab käia 2 sammu kui on algpositsioonil
-                    if (käik2[1] - käik2[0] == 20) {
+
+                if (värv == 0) {
+
+                    if ((käik2[0] - käik2[0] % 10) / 10 == 2) {   //ettur saab käia 2 sammu kui on algpositsioonil
+                        if (käik2[1] - käik2[0] == 20) {
+                            return true;
+                        }
+                    }
+
+                    if (käik2[1] - käik2[0] == 10 && kasTühiRuut == 0) {  //arvutab koordinaatide järgi kas käik on võimalik
                         return true;
+                    } else if ((käik2[1] - käik2[0] == 9 && kasTühiRuut != 0) || (käik2[1] - käik2[0] == 11 && kasTühiRuut != 0)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                } else {
+                    //ehk siis mustad
+                    if ((käik2[0] - käik2[0] % 10) / 10 == 7) {
+                        if (käik2[0] - käik2[1] == 20) {
+                            return true;
+                        }
+                    }
+
+                    if (käik2[0] - käik2[1] == 10) {
+                        return true;
+                    } else if ((käik2[0] - käik2[1] == 9 && kasTühiRuut != 0) || (käik2[0] - käik2[1] == 11 && kasTühiRuut != 0)) {
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
 
-                if (käik2[1] - käik2[0] == 10 && kasTühiRuut == 0) {  //arvutab koordinaatide järgi kas käik on võimalik
+            }
+
+            if (nupp.equals("ratsuKlass")) {
+
+                if ((Math.abs(käik2[1] - käik2[0]) == 8 || Math.abs(käik2[1] - käik2[0]) == 12 || Math.abs(käik2[1] - käik2[0]) == 19 || Math.abs(käik2[1] - käik2[0]) == 21) && ((värv == 0 && kasTühiRuut != 3 && kasTühiRuut != 8) || (värv == 1 && kasTühiRuut != 27 && kasTühiRuut != 32)) && värv != värv2) {  //arvutab koordinaatide järgi kas käik on võimalik
+
                     return true;
-                } else if ((käik2[1] - käik2[0] == 9 && kasTühiRuut != 0) || (käik2[1] - käik2[0] == 11 && kasTühiRuut != 0)) {
-                    return true;
+
                 } else {
+
+                    System.out.println();
                     return false;
                 }
 
-            } else {
-                //ehk siis mustad
-                if ((käik2[0] - käik2[0] % 10) / 10 == 7) {
-                    if (käik2[0] - käik2[1] == 20) {
-                        return true;
-                    }
-                }
-
-                if (käik2[0] - käik2[1] == 10) {
-                    return true;
-                } else if ((käik2[0] - käik2[1] == 9 && kasTühiRuut != 0) || (käik2[0] - käik2[1] == 11 && kasTühiRuut != 0)) {
-                    return true;
-                } else {
-                    return false;
-                }
             }
 
-        }
-
-        if (nupp.equals("ratsuKlass")) {
-
-            if ((Math.abs(käik2[1] - käik2[0]) == 8 || Math.abs(käik2[1] - käik2[0]) == 12 || Math.abs(käik2[1] - käik2[0]) == 19 || Math.abs(käik2[1] - käik2[0]) == 21) && ((värv == 0 && kasTühiRuut != 3 && kasTühiRuut != 8) || (värv == 1 && kasTühiRuut != 27 && kasTühiRuut != 32)) && värv != värv2) {  //arvutab koordinaatide järgi kas käik on võimalik
-
-                return true;
-
-            } else {
-
-                System.out.println();
-                return false;
-            }
-
-        }
-
-            /*- käib ainult horisontaalis ja vertikaalis
-              - kedagi ei tohialguse ja lõpu vahel olla
-              - samasse kohta ei tohi astuda
-              - oma nuppe ei saa võtta (ja kuningat)
-              */
-        if (nupp.equals("vankerKlass")) {
-
-            if (akt2 == kuhu2) {
-
-                //vertikaalne liikumine
-                System.out.println(Math.abs(käik2[1] - käik2[0]) % 10);
-                if (akt1 > kuhu1) {
-
-                    for (int i = akt1 - 1; i > kuhu1; i--) {
-                        System.out.println("Proovin: " + i);
-                        if (lauaseis[i - 1][kuhu2 - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][kuhu2 - 1]);
-                            return false;
-                        }
-                    }
-
-
-                } else if (akt1 < kuhu1) {  // akt1<kuhu1
-
-                    for (int i = akt1 + 1; i < kuhu1; i++) {   // see korda teha
-                        System.out.println("Proovin: " + i);
-                        if (lauaseis[i - 1][kuhu2 - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][kuhu2 - 1]);
-                            return false;
-                        }
-                    }
-
-
-                }
-
-                if (värv != värv2) {
-                    return true;
-                }
-
-
-            } else if (akt1 == kuhu1) {  //horisontaalne liikumine
-
-                if (akt2 > kuhu2) {
-
-                    for (int i = akt2 - 1; i > kuhu2; i--) {
-                        System.out.println("Proovin: " + i);
-                        if (lauaseis[kuhu1 - 1][i - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[kuhu1 - 1][i - 1]);
-                            return false;
-                        }
-                    }
-
-
-                } else {  // akt1<kuhu1
-
-                    for (int i = akt2 + 1; i < kuhu2; i++) {
-                        System.out.println("Proovin: " + i);
-                        if (lauaseis[kuhu1 - 1][i - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[kuhu1 - 1][i - 1]);
-                            return false;
-                        }
-                    }
-
-                }
-
-                if (värv != värv2) {
-                    return true;
-                }
-
-            }
-
-        }
-
-        if (nupp.equals("odaKlass")) {
-
-            //käib diagonaalis
-
-            if (Math.abs(käik2[1] - käik2[0]) % 9 == 0 || Math.abs(käik2[1] - käik2[0]) % 11 == 0) {
-
-                System.out.println("AKT1: " + akt1);
-                System.out.println("AKT2: " + akt2);
-                System.out.println("KUHU1: " + kuhu1);
-                System.out.println("KUHU2: " + kuhu2);
-
-
-                if (akt1 < kuhu1 && akt2 < kuhu2) {  //alla paremale
-
-                    int j = akt2 + 1;
-                    for (int i = akt1 + 1; i < kuhu1; i++) {
-                        System.out.println("Proovin i: " + i);
-                        System.out.println("Proovin j: " + j);
-                        if (lauaseis[i - 1][j - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
-                            return false;
-                        }
-                        j++;
-                    }
-                }
-
-                if (akt1 > kuhu1 && akt2 < kuhu2) {  //üles paremale
-
-                    int j = akt2 + 1;
-                    for (int i = akt1 - 1; i > kuhu1; i--) {
-                        System.out.println("Proovin i: " + i);
-                        System.out.println("Proovin j: " + j);
-                        if (lauaseis[i - 1][j - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
-                            return false;
-                        }
-                        j++;
-                    }
-                }
-
-                if (akt1 > kuhu1 && akt2 > kuhu2) {  //üles vasakule
-
-                    int j = akt2 - 1;
-                    for (int i = akt1 - 1; i > kuhu1; i--) {
-                        System.out.println("Proovin i: " + i);
-                        System.out.println("Proovin j: " + j);
-                        if (lauaseis[i - 1][j - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
-                            return false;
-
-                        }
-                        j--;
-                    }
-                }
-
-                if (akt1 < kuhu1 && akt2 > kuhu2) {  //alla vasakule
-
-                    int j = akt2 - 1;
-                    for (int i = akt1 + 1; i < kuhu1; i++) {
-                        System.out.println("Proovin i: " + i);
-                        System.out.println("Proovin j: " + j);
-                        if (lauaseis[i - 1][j - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
-                            return false;
-                        }
-                        j--;
-                    }
-                }
-
-                if (värv != värv2) {
-                    return true;
-                }
-
-
-
-            }
-        }
-
-        if (nupp.equals("lippKlass")) {
-
-            if (Math.abs(käik2[1] - käik2[0]) % 9 == 0 || Math.abs(käik2[1] - käik2[0]) % 11 == 0) {
-
-                if (akt1 < kuhu1 && akt2 < kuhu2) {  //alla paremale
-
-                    int j = akt2 + 1;
-                    for (int i = akt1 + 1; i < kuhu1; i++) {
-                        System.out.println("Proovin i: " + i);
-                        System.out.println("Proovin j: " + j);
-                        if (lauaseis[i - 1][j - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
-                            return false;
-                        }
-                        j++;
-                    }
-                }
-
-                if (akt1 > kuhu1 && akt2 < kuhu2) {  //üles paremale
-
-                    int j = akt2 + 1;
-                    for (int i = akt1 - 1; i > kuhu1; i--) {
-                        System.out.println("Proovin i: " + i);
-                        System.out.println("Proovin j: " + j);
-                        if (lauaseis[i - 1][j - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
-                            return false;
-                        }
-                        j++;
-                    }
-                }
-
-                if (akt1 > kuhu1 && akt2 > kuhu2) {  //üles vasakule
-
-                    int j = akt2 - 1;
-                    for (int i = akt1 - 1; i > kuhu1; i--) {
-                        System.out.println("Proovin i: " + i);
-                        System.out.println("Proovin j: " + j);
-                        if (lauaseis[i - 1][j - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
-                            return false;
-                        }
-                        j--;
-                    }
-                }
-
-                if (akt1 < kuhu1 && akt2 > kuhu2) {  //alla vasakule
-
-                    int j = akt2 - 1;
-                    for (int i = akt1 + 1; i < kuhu1; i++) {
-                        System.out.println("Proovin i: " + i);
-                        System.out.println("Proovin j: " + j);
-                        if (lauaseis[i - 1][j - 1] != 0) {
-                            System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
-                            return false;
-                        }
-                        j--;
-                    }
-                }
-
-                if (värv != värv2) {
-                    return true;
-                }
-
-            } else if (akt1 == kuhu1 || akt2 == kuhu2) {
+                /*- käib ainult horisontaalis ja vertikaalis
+                  - kedagi ei tohialguse ja lõpu vahel olla
+                  - samasse kohta ei tohi astuda
+                  - oma nuppe ei saa võtta (ja kuningat)
+                  */
+            if (nupp.equals("vankerKlass")) {
 
                 if (akt2 == kuhu2) {
 
@@ -1508,38 +1423,277 @@ public class Aken {
                     }
 
                 }
+
             }
-        }
 
-        if (nupp.equals("kuningasKlass")) {
+            if (nupp.equals("odaKlass")) {
 
-            if (akt1 - kuhu1 == 0) {                  // ehk on samal real
-                if (Math.abs(akt2 - kuhu2) == 1) {   // 1 samm mõlemas suunas
-                    if (värv != värv2) {             // ei ole oma nupp
-                        return true;                   // siis sobib
+                //käib diagonaalis
+
+                if (Math.abs(käik2[1] - käik2[0]) % 9 == 0 || Math.abs(käik2[1] - käik2[0]) % 11 == 0) {
+
+                    System.out.println("AKT1: " + akt1);
+                    System.out.println("AKT2: " + akt2);
+                    System.out.println("KUHU1: " + kuhu1);
+                    System.out.println("KUHU2: " + kuhu2);
+
+
+                    if (akt1 < kuhu1 && akt2 < kuhu2) {  //alla paremale
+
+                        int j = akt2 + 1;
+                        for (int i = akt1 + 1; i < kuhu1; i++) {
+                            System.out.println("Proovin i: " + i);
+                            System.out.println("Proovin j: " + j);
+                            if (lauaseis[i - 1][j - 1] != 0) {
+                                System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
+                                return false;
+                            }
+                            j++;
+                        }
                     }
-                }
-            }
 
-            if (akt1 - kuhu1 == -1) {                 //tahab astuda suurema numbriga reale
-                if (Math.abs(akt2 - kuhu2) == 1 || Math.abs(akt2 - kuhu2) == 0) {
+                    if (akt1 > kuhu1 && akt2 < kuhu2) {  //üles paremale
+
+                        int j = akt2 + 1;
+                        for (int i = akt1 - 1; i > kuhu1; i--) {
+                            System.out.println("Proovin i: " + i);
+                            System.out.println("Proovin j: " + j);
+                            if (lauaseis[i - 1][j - 1] != 0) {
+                                System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
+                                return false;
+                            }
+                            j++;
+                        }
+                    }
+
+                    if (akt1 > kuhu1 && akt2 > kuhu2) {  //üles vasakule
+
+                        int j = akt2 - 1;
+                        for (int i = akt1 - 1; i > kuhu1; i--) {
+                            System.out.println("Proovin i: " + i);
+                            System.out.println("Proovin j: " + j);
+                            if (lauaseis[i - 1][j - 1] != 0) {
+                                System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
+                                return false;
+
+                            }
+                            j--;
+                        }
+                    }
+
+                    if (akt1 < kuhu1 && akt2 > kuhu2) {  //alla vasakule
+
+                        int j = akt2 - 1;
+                        for (int i = akt1 + 1; i < kuhu1; i++) {
+                            System.out.println("Proovin i: " + i);
+                            System.out.println("Proovin j: " + j);
+                            if (lauaseis[i - 1][j - 1] != 0) {
+                                System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
+                                return false;
+                            }
+                            j--;
+                        }
+                    }
+
                     if (värv != värv2) {
                         return true;
                     }
+
+
+
                 }
             }
 
-            if (akt1 - kuhu1 == 1) {                 //tahab astuda väiksema numbriga reale
-                if (Math.abs(akt2 - kuhu2) == 1 || Math.abs(akt2 - kuhu2) == 0) {
+            if (nupp.equals("lippKlass")) {
+
+                if (Math.abs(käik2[1] - käik2[0]) % 9 == 0 || Math.abs(käik2[1] - käik2[0]) % 11 == 0) {
+
+                    if (akt1 < kuhu1 && akt2 < kuhu2) {  //alla paremale
+
+                        int j = akt2 + 1;
+                        for (int i = akt1 + 1; i < kuhu1; i++) {
+                            System.out.println("Proovin i: " + i);
+                            System.out.println("Proovin j: " + j);
+                            if (lauaseis[i - 1][j - 1] != 0) {
+                                System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
+                                return false;
+                            }
+                            j++;
+                        }
+                    }
+
+                    if (akt1 > kuhu1 && akt2 < kuhu2) {  //üles paremale
+
+                        int j = akt2 + 1;
+                        for (int i = akt1 - 1; i > kuhu1; i--) {
+                            System.out.println("Proovin i: " + i);
+                            System.out.println("Proovin j: " + j);
+                            if (lauaseis[i - 1][j - 1] != 0) {
+                                System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
+                                return false;
+                            }
+                            j++;
+                        }
+                    }
+
+                    if (akt1 > kuhu1 && akt2 > kuhu2) {  //üles vasakule
+
+                        int j = akt2 - 1;
+                        for (int i = akt1 - 1; i > kuhu1; i--) {
+                            System.out.println("Proovin i: " + i);
+                            System.out.println("Proovin j: " + j);
+                            if (lauaseis[i - 1][j - 1] != 0) {
+                                System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
+                                return false;
+                            }
+                            j--;
+                        }
+                    }
+
+                    if (akt1 < kuhu1 && akt2 > kuhu2) {  //alla vasakule
+
+                        int j = akt2 - 1;
+                        for (int i = akt1 + 1; i < kuhu1; i++) {
+                            System.out.println("Proovin i: " + i);
+                            System.out.println("Proovin j: " + j);
+                            if (lauaseis[i - 1][j - 1] != 0) {
+                                System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
+                                return false;
+                            }
+                            j--;
+                        }
+                    }
+
                     if (värv != värv2) {
                         return true;
                     }
+
+                } else if (akt1 == kuhu1 || akt2 == kuhu2) {
+
+                    if (akt2 == kuhu2) {
+
+                        //vertikaalne liikumine
+                        System.out.println(Math.abs(käik2[1] - käik2[0]) % 10);
+                        if (akt1 > kuhu1) {
+
+                            for (int i = akt1 - 1; i > kuhu1; i--) {
+                                System.out.println("Proovin: " + i);
+                                if (lauaseis[i - 1][kuhu2 - 1] != 0) {
+                                    System.out.println("siin on nupp: " + lauaseis[i - 1][kuhu2 - 1]);
+                                    return false;
+                                }
+                            }
+
+
+                        } else if (akt1 < kuhu1) {  // akt1<kuhu1
+
+                            for (int i = akt1 + 1; i < kuhu1; i++) {   // see korda teha
+                                System.out.println("Proovin: " + i);
+                                if (lauaseis[i - 1][kuhu2 - 1] != 0) {
+                                    System.out.println("siin on nupp: " + lauaseis[i - 1][kuhu2 - 1]);
+                                    return false;
+                                }
+                            }
+
+
+                        }
+
+                        if (värv != värv2) {
+                            return true;
+                        }
+
+
+                    } else if (akt1 == kuhu1) {  //horisontaalne liikumine
+
+                        if (akt2 > kuhu2) {
+
+                            for (int i = akt2 - 1; i > kuhu2; i--) {
+                                System.out.println("Proovin: " + i);
+                                if (lauaseis[kuhu1 - 1][i - 1] != 0) {
+                                    System.out.println("siin on nupp: " + lauaseis[kuhu1 - 1][i - 1]);
+                                    return false;
+                                }
+                            }
+
+
+                        } else {  // akt1<kuhu1
+
+                            for (int i = akt2 + 1; i < kuhu2; i++) {
+                                System.out.println("Proovin: " + i);
+                                if (lauaseis[kuhu1 - 1][i - 1] != 0) {
+                                    System.out.println("siin on nupp: " + lauaseis[kuhu1 - 1][i - 1]);
+                                    return false;
+                                }
+                            }
+
+                        }
+
+                        if (värv != värv2) {
+                            return true;
+                        }
+
+                    }
                 }
             }
-        }
+
+
+
+            if (nupp.equals("kuningasKlass")) {
+                //teha if lause mis ei luba astuda tulle
+                if ((värv == 0 && mustTuleTabel(lauaseis)[kuhu1 - 1][kuhu2 - 1] != 1) ||
+                        (värv == 1 && valgeTuleTabel(lauaseis)[kuhu1 - 1][kuhu2 - 1] != 1)) {
+                    if (akt1 - kuhu1 == 0) {                  // ehk on samal real
+                        if (Math.abs(akt2 - kuhu2) == 1) {   // 1 samm mõlemas suunas
+                            if (värv != värv2) {             // ei ole oma nupp
+                                return true;                   // siis sobib
+                            }
+                        }
+                    }
+
+                    if (akt1 - kuhu1 == -1) {                 //tahab astuda suurema numbriga reale
+                        if (Math.abs(akt2 - kuhu2) == 1 || Math.abs(akt2 - kuhu2) == 0) {
+                            if (värv != värv2) {
+                                return true;
+                            }
+                        }
+                    }
+
+                    if (akt1 - kuhu1 == 1) {                 //tahab astuda väiksema numbriga reale
+                        if (Math.abs(akt2 - kuhu2) == 1 || Math.abs(akt2 - kuhu2) == 0) {
+                            if (värv != värv2) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                System.out.println("Siin on tuli");
+            }
+        } catch (Exception e) {}
 
         return false;
     }
+
+    public int[] otsiNupuAsukoht(int nupp, int[][] lauaseis){
+
+        int[] x = new int[2];
+        int[] y = {0, 0};
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+
+                if(lauaseis[i][j] == nupp){
+
+                    x[0] = i;
+                    x[1] = j;
+                    return x;
+
+                }
+            }
+        }
+        return y;
+    }
+
+
+
 
 
 }
