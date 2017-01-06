@@ -1,30 +1,29 @@
 package Male_v2;
 
 import javafx.application.Platform;
-
 import java.util.concurrent.ThreadLocalRandom;
-
 import static Male_v2.Aken.sisend;
 import static java.lang.Integer.parseInt;
 
 
-public class Game {
+class Game {
 
-    public static int k2ik(){
+    static int k2ik(){
 
-        String mov = sisend.getText();
+        String mov = sisend.getText();              //võtab textfieldist soovitud käigu stringina
 
-        try {
+        try {                                       //try block et mittenumbrite sisestamisega tegeleda
             int move = Integer.parseInt(mov);
 
-            if (((int) Math.log10(move) + 1) == 4){
+            if (((int) Math.log10(move) + 1) == 4){         //kontrollib pikkust
 
                 sisend.clear();
                 Platform.runLater(() -> sisend.requestFocus());
 
-                return move;
+                return move;                    //kui pikkuse- ja tüübifiltri läbib, siis läheb number edasi
             }
-            move = 9999;
+
+            move = 9999;                            //see näitab et käik pole sobilik
             return move;
 
         }catch(NumberFormatException nfe){
@@ -34,7 +33,7 @@ public class Game {
         return 9999;
     }
 
-    public static int testk2ik() {
+    static int testk2ik() {                  //toodab suvalisi neljakohalisi numbreid
 
         String y = "";
         int r;

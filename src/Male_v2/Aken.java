@@ -20,7 +20,7 @@ import static Male_v2.Laud.nupumap;
 import static Male_v2.Nupud.initNupud;
 
 
-public class Aken {
+class Aken {
 
     Scene aScene;
     Stage aStage;
@@ -56,8 +56,7 @@ public class Aken {
 
     }
 
-
-    public void male(int x){
+    private void male(int x){
 
         int akt2;
         int akt1;
@@ -90,9 +89,9 @@ public class Aken {
 
             //prindib selle konsooli
 
-            for (int rida2 = 0; rida2 < lauaseis.length; rida2++) {
-                for (int veerg2 = 0; veerg2 < lauaseis[rida2].length; veerg2++) {
-                    System.out.print(lauaseis[rida2][veerg2] + "\t");
+            for (int[] t : lauaseis) {
+                for (int s : t) {
+                    System.out.print(s + "\t");
                 }
                 System.out.println();
             }
@@ -103,7 +102,6 @@ public class Aken {
         }
 
         firstMove = false;
-
 
         if (x == 0) {
             kaik = k2ik();
@@ -117,12 +115,13 @@ public class Aken {
 
                 return;
             }
+
         } else {
 
             recCount++;
             System.out.println("Kordus: " + recCount);
 
-            kaik = testk2ik();      //v6etakse k2ik textfieldist "sisend"
+            kaik = testk2ik();
         }
 
         // käik lõhutakse ära ja lisatakse massiivi
@@ -206,6 +205,7 @@ public class Aken {
 
         }
 
+        //käigukontroll
 
         if (!käiguKontroll(kaik2, varv, varv2, lauaseis[kuhu1 - 1][kuhu2 - 1],
                 nupp, kuhu1, kuhu2, akt1, akt2, lauaseis, vkLiikunud, vv1Liikunud,
@@ -258,7 +258,7 @@ public class Aken {
                     [otsiNupuAsukoht(6, lauaseis)[1]] == 0) {
 
                 lauaseisAjutine = lauaseis;
-                lauaseisAjutine[akt1 - 1][akt2 - 1] = 0;               //ajutiselt k'ib et testida kas tuli on kadunud
+                lauaseisAjutine[akt1 - 1][akt2 - 1] = 0;               //ajutiselt käib et testida kas tuli on kadunud
                 lauaseisAjutine[kuhu1 - 1][kuhu2 - 1] = aktiivneNupp;
 
                 if (mustTuleTabel(lauaseisAjutine)[otsiNupuAsukoht(6, lauaseisAjutine)[0]]
@@ -273,7 +273,7 @@ public class Aken {
                     [otsiNupuAsukoht(30, lauaseis)[1]] == 0) {
 
                 lauaseisAjutine = lauaseis;
-                lauaseisAjutine[akt1 - 1][akt2 - 1] = 0;               //ajutiselt k'ib et testida kas tuli on kadunud
+                lauaseisAjutine[akt1 - 1][akt2 - 1] = 0;               //ajutiselt käib et testida kas tuli on kadunud
                 lauaseisAjutine[kuhu1 - 1][kuhu2 - 1] = aktiivneNupp;
 
                 if (valgeTuleTabel(lauaseisAjutine)[otsiNupuAsukoht(30, lauaseisAjutine)[0]]
@@ -291,13 +291,23 @@ public class Aken {
         lauaseis[akt1 - 1][akt2 - 1] = 0;                       //muudab lauaseisu massiivi
         lauaseis[kuhu1 - 1][kuhu2 - 1] = aktiivneNupp;
 
-        if (aktiivneNupp == 6 && kaik == 1512){             //need on vangerduste jaoks
+        if (aktiivneNupp == 6 && kaik == 1512){             //need on vangerduste jaoks, vankri käimine
             lauaseis[kuhu1 - 1][kuhu2] = 2;
             lauaseis[kuhu1 - 1][kuhu2 - 2] = 0;
         }
 
         if (aktiivneNupp == 6 && kaik == 1517){
             lauaseis[kuhu1 - 1][kuhu2 - 2] = 9;
+            lauaseis[kuhu1 - 1][kuhu2] = 0;
+        }
+
+        if (aktiivneNupp == 30 && kaik == 8582){
+            lauaseis[kuhu1 - 1][kuhu2] = 26;
+            lauaseis[kuhu1 - 1][kuhu2 - 2] = 0;
+        }
+
+        if (aktiivneNupp == 30 && kaik == 8587){
+            lauaseis[kuhu1 - 1][kuhu2 - 2] = 33;
             lauaseis[kuhu1 - 1][kuhu2] = 0;
         }
 
@@ -329,9 +339,9 @@ public class Aken {
         System.out.println("Uus lauaseis: ");
         System.out.println("-----------------------------");
 
-        for (int rida3 = 0; rida3 < lauaseis.length; rida3++) {
-            for (int veerg3 = 0; veerg3 < lauaseis[rida3].length; veerg3++) {
-                System.out.print(lauaseis[rida3][veerg3] + "\t");
+        for (int[] t : lauaseis) {
+            for (int s : t) {
+                System.out.print(s + "\t");
             }
             System.out.println();
         }
@@ -418,7 +428,7 @@ public class Aken {
         }
     }
 
-    public void looAken() {
+    private void looAken() {
 
         root = new Group();
         laud = new Group();
@@ -469,19 +479,15 @@ public class Aken {
 
     }
 
-    public void log(String logitekst) {
+    private void log(String logitekst) {
 
         logi.appendText(logitekst);
 
     }
 
-    public static boolean onLaual(int rida, int veerg){
+    private static boolean onLaual(int rida, int veerg){
 
-        if (rida < 0 || veerg < 0 || rida > 7 || veerg > 7)
-        {
-            return false;
-        }
-        return true;
+        return !(rida < 0 || veerg < 0 || rida > 7 || veerg > 7);
     }
 
     private void liigutaFX(int aktiivneNupp, int kuhu2, int kuhu1, int v6etavNupp) {
@@ -515,7 +521,7 @@ public class Aken {
 
     }
 
-    public void prindiKaik(int[] kaik2){
+    private void prindiKaik(int[] kaik2){
 
         for (int c = 0; c < kaik2.length; c++) {
 
@@ -534,7 +540,7 @@ public class Aken {
         System.out.println();
     }
 
-    public int[] otsiNupuAsukoht(int nupp, int[][] lauaseis){
+    private int[] otsiNupuAsukoht(int nupp, int[][] lauaseis){
 
         int[] x = new int[2];
         int[] y = {0, 0};
@@ -553,7 +559,7 @@ public class Aken {
         return y;
     }
 
-    public static int[][] mustTuleTabel(int[][] lauaseis) {
+    private static int[][] mustTuleTabel(int[][] lauaseis) {
 
 
         int kasTuli;
@@ -564,104 +570,57 @@ public class Aken {
         for (int rida = 0; rida < lauaseis.length; rida++) {
             for (int veerg = 0; veerg < lauaseis[rida].length; veerg++) {
 
-
                 //etturite TULI
 
                 kasTuli = 0;
-                try
-                {
-                    if (veerg == 0 && rida > 0)
-                    {
-
+                try {
+                    if (veerg == 0 && rida > 0) {
                         if (lauaseis[rida + 1][veerg + 1] > 17 && lauaseis[rida + 1][veerg + 1] < 26) {
 
-
                             kasTuli = 1;
-                            //System.out.println("TULI");
 
                         }
 
-
-                    }
-
-                    else if (veerg == 7 && rida > 0)
-                    {
+                    } else if (veerg == 7 && rida > 0) {
                         if (lauaseis[rida+1][veerg-1] > 17 && lauaseis[rida+1][veerg-1] < 26){
 
-
                             kasTuli = 1;
-                            //System.out.println("TULI");
-
 
                         }
-                    }
 
-
-
-
-                    //System.out.println("RIDA: " + rida + ", VEERG: " + veerg + ", TULD ANNAB: " + lauaseis[rida-1][veerg-1] + " või " + lauaseis[rida-1][veerg+1]);
-                    else if ((lauaseis[rida+1][veerg-1] > 17 && lauaseis[rida+1][veerg-1] < 26) || (lauaseis[rida+1][veerg+1] > 17 && lauaseis[rida+1][veerg+1] < 26))
-                    {
+                    } else if ((lauaseis[rida+1][veerg-1] > 17 && lauaseis[rida+1][veerg-1] < 26) || (lauaseis[rida+1][veerg+1] > 17 && lauaseis[rida+1][veerg+1] < 26)) {
 
                         kasTuli = 1;
 
-                        //System.out.println("b");
-
-                    }
-
-                    else
-                    {
+                    } else {
 
                         kasTuli = 0;
-                        //System.out.println("OK");
 
                     }
-
-                }
-
-                catch (Exception e){}
+                } catch (Exception ignored){}
 
 
                 //ratsude TULI
 
-                try
-                {
-                    if (onLaual(rida+1, veerg+2)&&(lauaseis[rida+1][veerg+2] == 27 || lauaseis[rida+1][veerg+2] == 32))
-                    {
+                try {
+                    if (onLaual(rida+1, veerg+2)&&(lauaseis[rida+1][veerg+2] == 27 || lauaseis[rida+1][veerg+2] == 32)) {
                         kasTuli = 1;
-                        //System.out.println("rida: " + rida + ", veerg: " + veerg);
-                    }
-                    else if (onLaual(rida-1, veerg+2)&&(lauaseis[rida-1][veerg+2] == 27 || lauaseis[rida-1][veerg+2] == 32))
-                    {
+                    } else if (onLaual(rida-1, veerg+2)&&(lauaseis[rida-1][veerg+2] == 27 || lauaseis[rida-1][veerg+2] == 32)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida+1, veerg-2)&&(lauaseis[rida+1][veerg-2] == 27 || lauaseis[rida+1][veerg-2] == 32))
-                    {
+                    } else if (onLaual(rida+1, veerg-2)&&(lauaseis[rida+1][veerg-2] == 27 || lauaseis[rida+1][veerg-2] == 32)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida-1, veerg-2)&&(lauaseis[rida-1][veerg-2] == 27 || lauaseis[rida-1][veerg-2] == 32))
-                    {
+                    } else if (onLaual(rida-1, veerg-2)&&(lauaseis[rida-1][veerg-2] == 27 || lauaseis[rida-1][veerg-2] == 32)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida+2, veerg+1)&&(lauaseis[rida+2][veerg+1] == 27 || lauaseis[rida+2][veerg+1] == 32))
-                    {
+                    } else if (onLaual(rida+2, veerg+1)&&(lauaseis[rida+2][veerg+1] == 27 || lauaseis[rida+2][veerg+1] == 32)) {
                         kasTuli = 1;
-                        //System.out.print("c");
-                    }
-                    else if (onLaual(rida-2, veerg+1)&&(lauaseis[rida-2][veerg+1] == 27 || lauaseis[rida-2][veerg+1] == 32))
-                    {
+                    } else if (onLaual(rida-2, veerg+1)&&(lauaseis[rida-2][veerg+1] == 27 || lauaseis[rida-2][veerg+1] == 32)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida+2, veerg-1)&&(lauaseis[rida+2][veerg-1] == 27 || lauaseis[rida+2][veerg-1] == 32)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida-2, veerg-1)&&(lauaseis[rida-2][veerg-1] == 27 || lauaseis[rida-2][veerg-1] == 32))  {
                         kasTuli = 1;
                     }
-                    else if (onLaual(rida+2, veerg-1)&&(lauaseis[rida+2][veerg-1] == 27 || lauaseis[rida+2][veerg-1] == 32))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida-2, veerg-1)&&(lauaseis[rida-2][veerg-1] == 27 || lauaseis[rida-2][veerg-1] == 32))
-                    {
-                        kasTuli = 1;
-                    }
-                }
-                catch (Exception e) {}
+                } catch (Exception ignored) {}
 
 
                 //vankrite TULI (+ lipp)
@@ -669,106 +628,86 @@ public class Aken {
                 //kontrollib mööda sama veergu ülespoole
                 try {
                     int k = rida - 1;
-                    vanker1:
-                    while (k != -1) {
-                        //System.out.println("k = " + k);
 
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
+                    while (k != -1) {
+
                         vankersum += lauaseis[k][veerg];
-                        //System.out.println("Lisan: " + lauaseis[k][veerg]);
-                        //System.out.println("vankersum = " + vankersum);
+
                         if (lauaseis[k][veerg] != 0) {
-                            //System.out.println("-->" + vankersum);
 
                             if (vankersum == 26 || vankersum == 33 || vankersum == 29) {
                                 kasTuli = 1;
                             }
-                            break vanker1;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
 
                         k--;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 vankersum = 0;
 
                 //kontrollib mööda sama veergu allapoole
                 try {
                     int k = rida + 1;
-                    vanker2:
-                    while (k != 8) {
-                        //System.out.println("k = " + k);
 
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
+                    while (k != 8) {
+
                         vankersum += lauaseis[k][veerg];
-                        //System.out.println("vankersum = " + vankersum);
+
                         if (lauaseis[k][veerg] != 0) {
 
                             if (vankersum == 26 || vankersum == 33 || vankersum == 29) {
                                 kasTuli = 1;
-
                             }
-                            break vanker2;
+                            break;
                         }
 
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
                         k++;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 vankersum = 0;
 
                 //kontrollib mööda sama rida vasakule
                 try {
                     int k = veerg - 1;
-                    vanker3:
-                    while (k != -1) {
-                        //System.out.println("k = " + k);
 
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
+                    while (k != -1) {
+
                         vankersum += lauaseis[rida][k];
-                        //System.out.println("vankersum = " + vankersum);
+
                         if (lauaseis[rida][k] != 0) {
 
                             if (vankersum == 26 || vankersum == 33 || vankersum == 29) {
                                 kasTuli = 1;
-
                             }
-                            break vanker3;
+                            break;
                         }
 
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
                         k--;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 vankersum = 0;
 
                 //kontrollib mööda sama rida paremale
                 try {
                     int k = veerg + 1;
-                    vanker4:
-                    while (k != 8) {
-                        //System.out.println("k = " + k);
 
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
+                    while (k != 8) {
+
                         vankersum += lauaseis[rida][k];
-                        //System.out.println("vankersum = " + vankersum);
+
                         if (lauaseis[rida][k] != 0) {
 
                             if (vankersum == 26 || vankersum == 33 || vankersum == 29) {
                                 kasTuli = 1;
-
                             }
-                            break vanker4;
+                            break;
+
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
 
                         k++;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 vankersum = 0;
 
 
@@ -778,162 +717,125 @@ public class Aken {
                 try {
                     int k = veerg - 1;
                     int m = rida - 1;
-                    oda1:
-                    while (k != 0 || m != 0) {
-                        //System.out.println("k = " + k);
-                        odasum += lauaseis[m][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("odasum = " + odasum);
+                    while (k != 0 || m != 0) {
+
+                        odasum += lauaseis[m][k];
+
                         if (lauaseis[m][k] != 0) {
 
                             if (odasum == 28 || odasum == 31 || odasum == 29) {
                                 kasTuli = 1;
-
                             }
-                            break oda1;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k--;
                         m--;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 odasum = 0;
 
                 //kontrollib paremale yles
                 try {
                     int k = veerg + 1;
                     int m = rida - 1;
-                    oda2:
-                    while (k != 8 || m != 0) {
-                        //System.out.println("k = " + k);
-                        odasum += lauaseis[m][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("odasum = " + odasum);
+                    while (k != 8 || m != 0) {
+
+                        odasum += lauaseis[m][k];
+
                         if (lauaseis[m][k] != 0) {
 
                             if (odasum == 28 || odasum == 31 || odasum == 29) {
                                 kasTuli = 1;
-
                             }
-                            break oda2;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k++;
                         m--;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 odasum = 0;
 
                 //kontrollib vasakule alla
                 try {
                     int k = veerg - 1;
                     int m = rida + 1;
-                    oda3:
-                    while (k != 0 || m != 8) {
-                        //System.out.println("k = " + k);
-                        odasum += lauaseis[m][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("odasum = " + odasum);
+                    while (k != 0 || m != 8) {
+
+                        odasum += lauaseis[m][k];
+
                         if (lauaseis[m][k] != 0) {
 
                             if (odasum == 28 || odasum == 31 || odasum == 29) {
                                 kasTuli = 1;
-
                             }
-                            break oda3;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k--;
                         m++;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 odasum = 0;
 
                 //kontrollib paremale alla
                 try {
                     int k = veerg + 1;
                     int m = rida + 1;
-                    oda4:
-                    while (k != 8 || m != 8) {
-                        //System.out.println("k = " + k);
-                        odasum += lauaseis[m][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("odasum = " + odasum);
+                    while (k != 8 || m != 8) {
+
+                        odasum += lauaseis[m][k];
+
                         if (lauaseis[m][k] != 0) {
 
                             if (odasum == 28 || odasum == 31 || odasum == 29) {
                                 kasTuli = 1;
-
                             }
-                            break oda4;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k++;
                         m++;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 odasum = 0;
 
 
                 //kuninga tuli
 
-                try
-                {
-                    if (onLaual(rida+1, veerg-1)&&(lauaseis[rida+1][veerg-1] == 30))
-                    {
+                try {
+                    if (onLaual(rida+1, veerg-1)&&(lauaseis[rida+1][veerg-1] == 30)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida+1, veerg)&&(lauaseis[rida+1][veerg] == 30))
-                    {
+                    } else if (onLaual(rida+1, veerg)&&(lauaseis[rida+1][veerg] == 30)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida+1, veerg+1)&&(lauaseis[rida+1][veerg+1] == 30))
-                    {
+                    } else if (onLaual(rida+1, veerg+1)&&(lauaseis[rida+1][veerg+1] == 30)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida, veerg-1)&&(lauaseis[rida][veerg-1] == 30))
-                    {
+                    } else if (onLaual(rida, veerg-1)&&(lauaseis[rida][veerg-1] == 30)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida, veerg+1)&&(lauaseis[rida][veerg+1] == 30))
-                    {
+                    } else if (onLaual(rida, veerg+1)&&(lauaseis[rida][veerg+1] == 30)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida-1, veerg-1)&&(lauaseis[rida-1][veerg-1] == 30))
-                    {
+                    } else if (onLaual(rida-1, veerg-1)&&(lauaseis[rida-1][veerg-1] == 30)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida-1, veerg)&&(lauaseis[rida-1][veerg] == 30))
-                    {
+                    } else if (onLaual(rida-1, veerg)&&(lauaseis[rida-1][veerg] == 30)) {
                         kasTuli = 1;
-                    }
-                    else if (onLaual(rida-1, veerg+1)&&(lauaseis[rida-1][veerg+1] == 30))
-                    {
+                    } else if (onLaual(rida-1, veerg+1)&&(lauaseis[rida-1][veerg+1] == 30)) {
                         kasTuli = 1;
                     }
                 }
-                catch (Exception e) {}
-
+                catch (Exception ignored) {}
 
                 tuli[rida][veerg] = kasTuli;
-                //System.out.print(kasTuli + "\t");
             }
-            //System.out.println();
         }
-
         return tuli;
-
     }
 
-    public static int[][] valgeTuleTabel(int[][] lauaseis) {
+    private static int[][] valgeTuleTabel(int[][] lauaseis) {
 
 
         int kasTuli;
@@ -944,206 +846,144 @@ public class Aken {
         for (int rida = 0; rida < lauaseis.length; rida++) {
             for (int veerg = 0; veerg < lauaseis[rida].length; veerg++) {
 
-
                 //etturite TULI
 
                 kasTuli = 0;
-                try
-                {
-                    if (veerg == 0 && rida > 0)
-                    {
+                try {
+                    if (veerg == 0 && rida > 0) {
 
                         if (lauaseis[rida - 1][veerg + 1] > 9 && lauaseis[rida - 1][veerg + 1] < 18) {
 
-
                             kasTuli = 1;
-                            //System.out.println("TULI");
 
                         }
-
-
-                    }
-
-                    else if (veerg == 7 && rida > 0)
-                    {
+                    } else if (veerg == 7 && rida > 0) {
                         if (lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18){
 
-
                             kasTuli = 1;
-                            //System.out.println("TULI");
-
 
                         }
-                    }
-
-
-
-
-                    //System.out.println("RIDA: " + rida + ", VEERG: " + veerg + ", TULD ANNAB: " + lauaseis[rida-1][veerg-1] + " või " + lauaseis[rida-1][veerg+1]);
-                    else if ((lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18) || (lauaseis[rida-1][veerg+1] > 9 && lauaseis[rida-1][veerg+1] < 18))
-                    {
+                    } else if ((lauaseis[rida-1][veerg-1] > 9 && lauaseis[rida-1][veerg-1] < 18) || (lauaseis[rida-1][veerg+1] > 9 && lauaseis[rida-1][veerg+1] < 18)) {
 
                         kasTuli = 1;
 
-                        //System.out.println("b");
-
-                    }
-
-                    else
-                    {
+                    } else {
 
                         kasTuli = 0;
-                        //System.out.println("OK");
 
                     }
-
                 }
 
-                catch (Exception e){}
+                catch (Exception ignored){}
 
-                //System.out.println("test");
 
                 //ratsude TULI
 
-                try
-                {
-                    if (onLaual(rida+1, veerg+2)&&(lauaseis[rida+1][veerg+2] == 3 || lauaseis[rida+1][veerg+2] == 8))
-                    {
+                try {
+                    if (onLaual(rida+1, veerg+2)&&(lauaseis[rida+1][veerg+2] == 3 || lauaseis[rida+1][veerg+2] == 8)) {
                         kasTuli = 1;
                         //System.out.println("rida: " + rida + ", veerg: " + veerg);
-                    }
-                    else if (onLaual(rida-1, veerg+2)&&(lauaseis[rida-1][veerg+2] == 3 || lauaseis[rida-1][veerg+2] == 8))
-                    {
+                    } else if (onLaual(rida-1, veerg+2)&&(lauaseis[rida-1][veerg+2] == 3 || lauaseis[rida-1][veerg+2] == 8)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida+1, veerg-2)&&(lauaseis[rida+1][veerg-2] == 3 || lauaseis[rida+1][veerg-2] == 8)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida-1, veerg-2)&&(lauaseis[rida-1][veerg-2] == 3 || lauaseis[rida-1][veerg-2] == 8)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida+2, veerg+1)&&(lauaseis[rida+2][veerg+1] == 3 || lauaseis[rida+2][veerg+1] == 8)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida-2, veerg+1)&&(lauaseis[rida-2][veerg+1] == 3 || lauaseis[rida-2][veerg+1] == 8)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida+2, veerg-1)&&(lauaseis[rida+2][veerg-1] == 3 || lauaseis[rida+2][veerg-1] == 8)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida-2, veerg-1)&&(lauaseis[rida-2][veerg-1] == 3 || lauaseis[rida-2][veerg-1] == 8)) {
                         kasTuli = 1;
                     }
-                    else if (onLaual(rida+1, veerg-2)&&(lauaseis[rida+1][veerg-2] == 3 || lauaseis[rida+1][veerg-2] == 8))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida-1, veerg-2)&&(lauaseis[rida-1][veerg-2] == 3 || lauaseis[rida-1][veerg-2] == 8))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida+2, veerg+1)&&(lauaseis[rida+2][veerg+1] == 3 || lauaseis[rida+2][veerg+1] == 8))
-                    {
-                        kasTuli = 1;
-                        //System.out.print("c");
-                    }
-                    else if (onLaual(rida-2, veerg+1)&&(lauaseis[rida-2][veerg+1] == 3 || lauaseis[rida-2][veerg+1] == 8))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida+2, veerg-1)&&(lauaseis[rida+2][veerg-1] == 3 || lauaseis[rida+2][veerg-1] == 8))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida-2, veerg-1)&&(lauaseis[rida-2][veerg-1] == 3 || lauaseis[rida-2][veerg-1] == 8))
-                    {
-                        kasTuli = 1;
-                    }
-                }
-                catch (Exception e) {}
+                } catch (Exception ignored) {}
+
 
                 //vankrite TULI (+ lipp)
 
                 //kontrollib mööda sama veergu ülespoole
                 try {
                     int k = rida - 1;
-                    vanker1:
-                    while (k != -1) {
-                        //System.out.println("k = " + k);
-                        vankersum += lauaseis[k][veerg];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("vankersum = " + vankersum);
+                    while (k != -1) {
+
+                        vankersum += lauaseis[k][veerg];
                         if (lauaseis[k][veerg] != 0) {
 
                             if (vankersum == 2 || vankersum == 9 || vankersum == 5) {
                                 kasTuli = 1;
-
                             }
-                            break vanker1;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k--;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 vankersum = 0;
 
                 //kontrollib mööda sama veergu allapoole
                 try {
                     int k = rida + 1;
-                    vanker2:
-                    while (k != 8) {
-                        //System.out.println("k = " + k);
-                        vankersum += lauaseis[k][veerg];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("vankersum = " + vankersum);
+                    while (k != 8) {
+
+                        vankersum += lauaseis[k][veerg];
+
                         if (lauaseis[k][veerg] != 0) {
 
                             if (vankersum == 2 || vankersum == 9 || vankersum == 5) {
                                 kasTuli = 1;
-
                             }
-                            break vanker2;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k++;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 vankersum = 0;
 
                 //kontrollib mööda sama rida vasakule
                 try {
                     int k = veerg - 1;
-                    vanker3:
-                    while (k != -1) {
-                        //System.out.println("k = " + k);
-                        vankersum += lauaseis[rida][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("vankersum = " + vankersum);
+                    while (k != -1) {
+
+                        vankersum += lauaseis[rida][k];
+
                         if (lauaseis[rida][k] != 0) {
 
                             if (vankersum == 2 || vankersum == 9 || vankersum == 5) {
                                 kasTuli = 1;
-
                             }
-                            break vanker3;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k--;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 vankersum = 0;
 
                 //kontrollib mööda sama rida paremale
                 try {
                     int k = veerg + 1;
-                    vanker4:
-                    while (k != 8) {
-                        //System.out.println("k = " + k);
-                        vankersum += lauaseis[rida][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("vankersum = " + vankersum);
+                    while (k != 8) {
+
+                        vankersum += lauaseis[rida][k];
+
                         if (lauaseis[rida][k] != 0) {
 
                             if (vankersum == 2 || vankersum == 9 || vankersum == 5) {
                                 kasTuli = 1;
-
                             }
-                            break vanker4;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k++;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 vankersum = 0;
 
 
@@ -1153,173 +993,132 @@ public class Aken {
                 try {
                     int k = veerg - 1;
                     int m = rida - 1;
-                    oda1:
-                    while (k != 0 || m != 0) {
-                        //System.out.println("k = " + k);
-                        odasum += lauaseis[m][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("odasum = " + odasum);
+                    while (k != 0 || m != 0) {
+
+                        odasum += lauaseis[m][k];
+
                         if (lauaseis[m][k] != 0) {
 
                             if (odasum == 4 || odasum == 7 || odasum == 5) {
                                 kasTuli = 1;
-
                             }
-                            break oda1;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k--;
                         m--;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 odasum = 0;
 
                 //kontrollib paremale yles
                 try {
                     int k = veerg + 1;
                     int m = rida - 1;
-                    oda2:
-                    while (k != 8 || m != 0) {
-                        //System.out.println("k = " + k);
-                        odasum += lauaseis[m][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("odasum = " + odasum);
+                    while (k != 8 || m != 0) {
+
+                        odasum += lauaseis[m][k];
+
                         if (lauaseis[m][k] != 0) {
 
                             if (odasum == 4 || odasum == 7 || odasum == 5) {
                                 kasTuli = 1;
-
                             }
-                            break oda2;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k++;
                         m--;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 odasum = 0;
 
                 //kontrollib vasakule alla
                 try {
                     int k = veerg - 1;
                     int m = rida + 1;
-                    oda3:
-                    while (k != 0 || m != 8) {
-                        //System.out.println("k = " + k);
-                        odasum += lauaseis[m][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("odasum = " + odasum);
+                    while (k != 0 || m != 8) {
+
+                        odasum += lauaseis[m][k];
+
                         if (lauaseis[m][k] != 0) {
 
                             if (odasum == 4 || odasum == 7 || odasum == 5) {
                                 kasTuli = 1;
-
                             }
-                            break oda3;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k--;
                         m++;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 odasum = 0;
 
                 //kontrollib paremale alla
                 try {
                     int k = veerg + 1;
                     int m = rida + 1;
-                    oda4:
-                    while (k != 8 || m != 8) {
-                        //System.out.println("k = " + k);
-                        odasum += lauaseis[m][k];
-                        //System.out.println("lauaseis[k][veerg] = " + lauaseis[k][veerg]);
 
-                        //System.out.println("odasum = " + odasum);
+                    while (k != 8 || m != 8) {
+
+                        odasum += lauaseis[m][k];
+
                         if (lauaseis[m][k] != 0) {
 
                             if (odasum == 4 || odasum == 7 || odasum == 5) {
                                 kasTuli = 1;
-
                             }
-                            break oda4;
+                            break;
                         }
-                        //System.out.println("Kontrollin: rida_" + k + " veerg_" + veerg + " Ise olen ruut_" + rida + veerg
-                        //+ " kasblokitud? " + blokitud);
+
                         k++;
                         m++;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 odasum = 0;
 
 
                 //kuninga tuli
 
-                try
-                {
-                    if (onLaual(rida+1, veerg-1)&&(lauaseis[rida+1][veerg-1] == 6))
-                    {
+                try {
+                    if (onLaual(rida+1, veerg-1)&&(lauaseis[rida+1][veerg-1] == 6)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida+1, veerg)&&(lauaseis[rida+1][veerg] == 6)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida+1, veerg+1)&&(lauaseis[rida+1][veerg+1] == 6)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida, veerg-1)&&(lauaseis[rida][veerg-1] == 6)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida, veerg+1)&&(lauaseis[rida][veerg+1] == 6)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida-1, veerg-1)&&(lauaseis[rida-1][veerg-1] == 6)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida-1, veerg)&&(lauaseis[rida-1][veerg] == 6)) {
+                        kasTuli = 1;
+                    } else if (onLaual(rida-1, veerg+1)&&(lauaseis[rida-1][veerg+1] == 6)) {
                         kasTuli = 1;
                     }
-                    else if (onLaual(rida+1, veerg)&&(lauaseis[rida+1][veerg] == 6))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida+1, veerg+1)&&(lauaseis[rida+1][veerg+1] == 6))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida, veerg-1)&&(lauaseis[rida][veerg-1] == 6))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida, veerg+1)&&(lauaseis[rida][veerg+1] == 6))
-                    {
-                        kasTuli = 1;
-                        //System.out.print("c");
-                    }
-                    else if (onLaual(rida-1, veerg-1)&&(lauaseis[rida-1][veerg-1] == 6))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida-1, veerg)&&(lauaseis[rida-1][veerg] == 6))
-                    {
-                        kasTuli = 1;
-                    }
-                    else if (onLaual(rida-1, veerg+1)&&(lauaseis[rida-1][veerg+1] == 6))
-                    {
-                        kasTuli = 1;
-                    }
-                }
-                catch (Exception e) {}
-
-                //System.out.print(kasTuli + "\t");
+                } catch (Exception ignored) {}
 
                 tuli[rida][veerg] = kasTuli;
-
             }
-            //System.out.println();
         }
-
         return tuli;
-
     }
 
-    public static boolean käiguKontroll(int[] kaik2, int varv, int varv2, int kasTühiRuut,
-                                        String nupp, int kuhu1, int kuhu2, int akt1, int akt2,
-                                        int[][] lauaseis, int vkLiikunud, int vv1Liikunud, int vv2Liikunud,
-                                        int mkLiikunud, int mv1Liikunud, int mv2Liikunud) {
+    private static boolean käiguKontroll(int[] kaik2, int varv, int varv2, int kasTühiRuut,
+                                         String nupp, int kuhu1, int kuhu2, int akt1, int akt2,
+                                         int[][] lauaseis, int vkLiikunud, int vv1Liikunud, int vv2Liikunud,
+                                         int mkLiikunud, int mv1Liikunud, int mv2Liikunud) {
         //KÄIGUKONTROLL
 
-        try{                                        //et testimisega outofbounds erroreid ei tuleks
+        try {                                        //et testimisega outofbounds erroreid ei tuleks
 
             if (nupp.equals("etturKlass")) {
-
 
                 if (varv == 0) {
 
@@ -1329,7 +1128,7 @@ public class Aken {
                         }
                     }
 
-                    if (kaik2[1] - kaik2[0] == 10 && kasTühiRuut == 0) {  //arvutab koordinaatide järgi kas kaik on võimalik
+                    if (kaik2[1] - kaik2[0] == 10 && kasTühiRuut == 0) {  //arvutab koordinaatide järgi kas käik on võimalik
                         return true;
                     } else if ((kaik2[1] - kaik2[0] == 9 && kasTühiRuut != 0) || (kaik2[1] - kaik2[0] == 11 && kasTühiRuut != 0)) {
                         return true;
@@ -1353,7 +1152,6 @@ public class Aken {
                         return false;
                     }
                 }
-
             }
 
             if (nupp.equals("ratsuKlass")) {
@@ -1363,18 +1161,12 @@ public class Aken {
                     return true;
 
                 } else {
-
                     System.out.println();
                     return false;
                 }
 
             }
 
-                /*- käib ainult horisontaalis ja vertikaalis
-                  - kedagi ei tohialguse ja lõpu vahel olla
-                  - samasse kohta ei tohi astuda
-                  - oma nuppe ei saa võtta (ja kuningat)
-                  */
             if (nupp.equals("vankerKlass")) {
 
                 if (akt2 == kuhu2) {
@@ -1384,25 +1176,22 @@ public class Aken {
                     if (akt1 > kuhu1) {
 
                         for (int i = akt1 - 1; i > kuhu1; i--) {
-                            System.out.println("Proovin: " + i);
+
                             if (lauaseis[i - 1][kuhu2 - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][kuhu2 - 1]);
                                 return false;
                             }
                         }
-
 
                     } else if (akt1 < kuhu1) {  // akt1<kuhu1
 
                         for (int i = akt1 + 1; i < kuhu1; i++) {   // see korda teha
-                            System.out.println("Proovin: " + i);
+
                             if (lauaseis[i - 1][kuhu2 - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][kuhu2 - 1]);
                                 return false;
                             }
                         }
-
-
                     }
 
                     if (varv != varv2) {
@@ -1415,32 +1204,28 @@ public class Aken {
                     if (akt2 > kuhu2) {
 
                         for (int i = akt2 - 1; i > kuhu2; i--) {
-                            System.out.println("Proovin: " + i);
+
                             if (lauaseis[kuhu1 - 1][i - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[kuhu1 - 1][i - 1]);
                                 return false;
                             }
                         }
-
 
                     } else {  // akt1<kuhu1
 
                         for (int i = akt2 + 1; i < kuhu2; i++) {
-                            System.out.println("Proovin: " + i);
+
                             if (lauaseis[kuhu1 - 1][i - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[kuhu1 - 1][i - 1]);
                                 return false;
                             }
                         }
-
                     }
 
                     if (varv != varv2) {
                         return true;
                     }
-
                 }
-
             }
 
             if (nupp.equals("odaKlass")) {
@@ -1449,18 +1234,11 @@ public class Aken {
 
                 if (Math.abs(kaik2[1] - kaik2[0]) % 9 == 0 || Math.abs(kaik2[1] - kaik2[0]) % 11 == 0) {
 
-                    System.out.println("AKT1: " + akt1);
-                    System.out.println("AKT2: " + akt2);
-                    System.out.println("KUHU1: " + kuhu1);
-                    System.out.println("KUHU2: " + kuhu2);
-
-
                     if (akt1 < kuhu1 && akt2 < kuhu2) {  //alla paremale
 
                         int j = akt2 + 1;
                         for (int i = akt1 + 1; i < kuhu1; i++) {
-                            System.out.println("Proovin i: " + i);
-                            System.out.println("Proovin j: " + j);
+
                             if (lauaseis[i - 1][j - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
                                 return false;
@@ -1473,8 +1251,7 @@ public class Aken {
 
                         int j = akt2 + 1;
                         for (int i = akt1 - 1; i > kuhu1; i--) {
-                            System.out.println("Proovin i: " + i);
-                            System.out.println("Proovin j: " + j);
+
                             if (lauaseis[i - 1][j - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
                                 return false;
@@ -1487,12 +1264,10 @@ public class Aken {
 
                         int j = akt2 - 1;
                         for (int i = akt1 - 1; i > kuhu1; i--) {
-                            System.out.println("Proovin i: " + i);
-                            System.out.println("Proovin j: " + j);
+
                             if (lauaseis[i - 1][j - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
                                 return false;
-
                             }
                             j--;
                         }
@@ -1502,8 +1277,7 @@ public class Aken {
 
                         int j = akt2 - 1;
                         for (int i = akt1 + 1; i < kuhu1; i++) {
-                            System.out.println("Proovin i: " + i);
-                            System.out.println("Proovin j: " + j);
+
                             if (lauaseis[i - 1][j - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
                                 return false;
@@ -1515,9 +1289,6 @@ public class Aken {
                     if (varv != varv2) {
                         return true;
                     }
-
-
-
                 }
             }
 
@@ -1529,8 +1300,7 @@ public class Aken {
 
                         int j = akt2 + 1;
                         for (int i = akt1 + 1; i < kuhu1; i++) {
-                            System.out.println("Proovin i: " + i);
-                            System.out.println("Proovin j: " + j);
+
                             if (lauaseis[i - 1][j - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
                                 return false;
@@ -1543,8 +1313,7 @@ public class Aken {
 
                         int j = akt2 + 1;
                         for (int i = akt1 - 1; i > kuhu1; i--) {
-                            System.out.println("Proovin i: " + i);
-                            System.out.println("Proovin j: " + j);
+
                             if (lauaseis[i - 1][j - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
                                 return false;
@@ -1557,8 +1326,7 @@ public class Aken {
 
                         int j = akt2 - 1;
                         for (int i = akt1 - 1; i > kuhu1; i--) {
-                            System.out.println("Proovin i: " + i);
-                            System.out.println("Proovin j: " + j);
+
                             if (lauaseis[i - 1][j - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
                                 return false;
@@ -1571,8 +1339,7 @@ public class Aken {
 
                         int j = akt2 - 1;
                         for (int i = akt1 + 1; i < kuhu1; i++) {
-                            System.out.println("Proovin i: " + i);
-                            System.out.println("Proovin j: " + j);
+
                             if (lauaseis[i - 1][j - 1] != 0) {
                                 System.out.println("siin on nupp: " + lauaseis[i - 1][j - 1]);
                                 return false;
@@ -1594,25 +1361,22 @@ public class Aken {
                         if (akt1 > kuhu1) {
 
                             for (int i = akt1 - 1; i > kuhu1; i--) {
-                                System.out.println("Proovin: " + i);
+
                                 if (lauaseis[i - 1][kuhu2 - 1] != 0) {
                                     System.out.println("siin on nupp: " + lauaseis[i - 1][kuhu2 - 1]);
                                     return false;
                                 }
                             }
-
 
                         } else if (akt1 < kuhu1) {  // akt1<kuhu1
 
-                            for (int i = akt1 + 1; i < kuhu1; i++) {   // see korda teha
-                                System.out.println("Proovin: " + i);
+                            for (int i = akt1 + 1; i < kuhu1; i++) {
+
                                 if (lauaseis[i - 1][kuhu2 - 1] != 0) {
                                     System.out.println("siin on nupp: " + lauaseis[i - 1][kuhu2 - 1]);
                                     return false;
                                 }
                             }
-
-
                         }
 
                         if (varv != varv2) {
@@ -1625,7 +1389,7 @@ public class Aken {
                         if (akt2 > kuhu2) {
 
                             for (int i = akt2 - 1; i > kuhu2; i--) {
-                                System.out.println("Proovin: " + i);
+
                                 if (lauaseis[kuhu1 - 1][i - 1] != 0) {
                                     System.out.println("siin on nupp: " + lauaseis[kuhu1 - 1][i - 1]);
                                     return false;
@@ -1636,19 +1400,17 @@ public class Aken {
                         } else {  // akt1<kuhu1
 
                             for (int i = akt2 + 1; i < kuhu2; i++) {
-                                System.out.println("Proovin: " + i);
+
                                 if (lauaseis[kuhu1 - 1][i - 1] != 0) {
                                     System.out.println("siin on nupp: " + lauaseis[kuhu1 - 1][i - 1]);
                                     return false;
                                 }
                             }
-
                         }
 
                         if (varv != varv2) {
                             return true;
                         }
-
                     }
                 }
             }
@@ -1695,7 +1457,7 @@ public class Aken {
 
                             }
                         }
-                    }else if (akt1 == 8 && akt2 == 5 && kuhu1 == 8 && kuhu2 == 7){
+                    } else if (akt1 == 8 && akt2 == 5 && kuhu1 == 8 && kuhu2 == 7){
                         if(mkLiikunud == 0 && mv2Liikunud == 0){
                             if((valgeTuleTabel(lauaseis)[7][5] != 1) &&
                                     (valgeTuleTabel(lauaseis)[7][6] != 1)){
@@ -1736,9 +1498,8 @@ public class Aken {
                 }
                 System.out.println("Nii ei saa");
             }
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
 
         return false;
     }
-
 }

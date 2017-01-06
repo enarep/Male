@@ -1,55 +1,13 @@
 package Male_v2;
 
-
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-
 import java.util.HashMap;
 
+
 class Nupud {
-
-    static Ettur ettur10;
-    static Ettur ettur11;
-    static Ettur ettur12;
-    static Ettur ettur13;
-    static Ettur ettur14;
-    static Ettur ettur15;
-    static Ettur ettur16;
-    static Ettur ettur17;
-    static Ettur ettur18;
-    static Ettur ettur19;
-    static Ettur ettur20;
-    static Ettur ettur21;
-    static Ettur ettur22;
-    static Ettur ettur23;
-    static Ettur ettur24;
-    static Ettur ettur25;
-    static Ratsu ratsu3;
-    static Ratsu ratsu8;
-    static Ratsu ratsu27;
-    static Ratsu ratsu32;
-    static Vanker vanker2;
-    static Vanker vanker9;
-    static Vanker vanker26;
-    static Vanker vanker33;
-    static Oda oda4;
-    static Oda oda7;
-    static Oda oda28;
-    static Oda oda31;
-    static Lipp lipp5;
-    static Lipp lipp29;
-    static Kuningas kuningas6;
-    static Kuningas kuningas30;
-
-
-
-    public static HashMap<Integer, Malend> malendid;
-
-
-
-
 
     Nupud(){
 
@@ -57,9 +15,7 @@ class Nupud {
 
     }
 
-
-
-    public static HashMap mapiNupud() {
+    static HashMap mapiNupud() {
 
         HashMap<Integer, Image> nupud = new HashMap<>();
         HashMap<Integer, ImageView> nupud2 = new HashMap<>();
@@ -67,8 +23,8 @@ class Nupud {
 
         int j = 0;
 
-        for (int i = 0; i < nupupildid.length; i++) {
-            Image imageBuffer = new Image(nupupildid[i]);
+        for (String aNupupildid : nupupildid) {             //seob nupud piltidega
+            Image imageBuffer = new Image(aNupupildid);
             nupud.put(j, imageBuffer);
             ImageView imageViewBuffer = new ImageView(nupud.get(j));
             nupud2.put(j, imageViewBuffer);
@@ -82,45 +38,44 @@ class Nupud {
         }
 
         return nupud3;
-
     }
 
-    public static HashMap<Integer, Malend> initNupud() {
+    static HashMap<Integer, Malend> initNupud() {
 
-        ettur10 = new Ettur(10);
-        ettur11 = new Ettur(11);
-        ettur12 = new Ettur(12);
-        ettur13 = new Ettur(13);
-        ettur14 = new Ettur(14);
-        ettur15 = new Ettur(15);
-        ettur16 = new Ettur(16);
-        ettur17 = new Ettur(17);
-        ettur18 = new Ettur(18);
-        ettur19 = new Ettur(19);
-        ettur20 = new Ettur(20);
-        ettur21 = new Ettur(21);
-        ettur22 = new Ettur(22);
-        ettur23 = new Ettur(23);
-        ettur24 = new Ettur(24);
-        ettur25 = new Ettur(25);
-        ratsu3 = new Ratsu(3);
-        ratsu8 = new Ratsu(8);
-        ratsu27 = new Ratsu(27);
-        ratsu32 = new Ratsu(32);
-        vanker2 = new Vanker(2);
-        vanker9 = new Vanker(9);
-        vanker26 = new Vanker(26);
-        vanker33 = new Vanker(33);
-        oda4 = new Oda(4);
-        oda7 = new Oda(7);
-        oda28 = new Oda(28);
-        oda31 = new Oda(31);
-        lipp5 = new Lipp(5);
-        lipp29 = new Lipp(29);
-        kuningas6 = new Kuningas(6);
-        kuningas30 = new Kuningas(30);
+        Ettur ettur10 = new Ettur(10);
+        Ettur ettur11 = new Ettur(11);
+        Ettur ettur12 = new Ettur(12);
+        Ettur ettur13 = new Ettur(13);
+        Ettur ettur14 = new Ettur(14);
+        Ettur ettur15 = new Ettur(15);
+        Ettur ettur16 = new Ettur(16);
+        Ettur ettur17 = new Ettur(17);
+        Ettur ettur18 = new Ettur(18);
+        Ettur ettur19 = new Ettur(19);
+        Ettur ettur20 = new Ettur(20);
+        Ettur ettur21 = new Ettur(21);
+        Ettur ettur22 = new Ettur(22);
+        Ettur ettur23 = new Ettur(23);
+        Ettur ettur24 = new Ettur(24);
+        Ettur ettur25 = new Ettur(25);
+        Ratsu ratsu3 = new Ratsu(3);
+        Ratsu ratsu8 = new Ratsu(8);
+        Ratsu ratsu27 = new Ratsu(27);
+        Ratsu ratsu32 = new Ratsu(32);
+        Vanker vanker2 = new Vanker(2);
+        Vanker vanker9 = new Vanker(9);
+        Vanker vanker26 = new Vanker(26);
+        Vanker vanker33 = new Vanker(33);
+        Oda oda4 = new Oda(4);
+        Oda oda7 = new Oda(7);
+        Oda oda28 = new Oda(28);
+        Oda oda31 = new Oda(31);
+        Lipp lipp5 = new Lipp(5);
+        Lipp lipp29 = new Lipp(29);
+        Kuningas kuningas6 = new Kuningas(6);
+        Kuningas kuningas30 = new Kuningas(30);
 
-        malendid = new HashMap<>();
+        HashMap<Integer, Malend> malendid = new HashMap<>();
 
         malendid.put(10, ettur10);
         malendid.put(11, ettur11);
@@ -156,15 +111,12 @@ class Nupud {
         malendid.put(30, kuningas30);
 
         return malendid;
-
     }
-
 
     static class Malend {
 
         int varv;
         int number;
-        int[][] tuli;
         String pilt;
 
     }
@@ -176,13 +128,11 @@ class Nupud {
             number = x;
             pilt = nupupildid[x-2];
             if (number > 9 && number < 18) {
-                tuli = new int[][]{{1, -1}, {1, 1}}; //suhteline rida, veerg
                 varv = 0;
             } else if (number > 17 && number < 26) {
                 varv = 1;
             }
         }
-
     }
 
     public static class Ratsu extends Malend {
@@ -197,7 +147,6 @@ class Nupud {
                 varv = 1;
             }
         }
-
     }
 
     public static class Vanker extends Malend {
@@ -212,7 +161,6 @@ class Nupud {
                 varv = 1;
             }
         }
-
     }
 
     public static class Oda extends Malend {
@@ -227,7 +175,6 @@ class Nupud {
                 varv = 1;
             }
         }
-
     }
 
     public static class Lipp extends Malend {
@@ -242,11 +189,9 @@ class Nupud {
                 varv = 1;
             }
         }
-
     }
 
     public static class Kuningas extends Malend {
-
 
         //konstruktor
          Kuningas(int x) {
@@ -258,12 +203,9 @@ class Nupud {
                 varv = 1;
             }
         }
-
-
-
     }
 
-    static String[] nupupildid = {
+    static String[] nupupildid = {              //nupupildid
             "vanker0.png",
             "ratsu0.png",
             "oda0.png",
@@ -296,8 +238,6 @@ class Nupud {
             "oda1.png",
             "ratsu1.png",
             "vanker1.png"
-
     };
-
 }
 
