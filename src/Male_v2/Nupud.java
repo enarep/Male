@@ -162,7 +162,7 @@ class Nupud {
 
     static class Malend {
 
-        int värv;
+        int varv;
         int number;
         int[][] tuli;
         String pilt;
@@ -177,9 +177,9 @@ class Nupud {
             pilt = nupupildid[x-2];
             if (number > 9 && number < 18) {
                 tuli = new int[][]{{1, -1}, {1, 1}}; //suhteline rida, veerg
-                värv = 0;
+                varv = 0;
             } else if (number > 17 && number < 26) {
-                värv = 1;
+                varv = 1;
             }
         }
 
@@ -192,9 +192,9 @@ class Nupud {
             number = x;
             pilt = nupupildid[x-2];
             if (number == 3 || number == 8) {
-                värv = 0;
+                varv = 0;
             } else if (number == 27 || number == 32) {
-                värv = 1;
+                varv = 1;
             }
         }
 
@@ -207,9 +207,9 @@ class Nupud {
             number = x;
             pilt = nupupildid[x-2];
             if (number == 2 || number == 9) {
-                värv = 0;
+                varv = 0;
             } else if (number == 26 || number == 33) {
-                värv = 1;
+                varv = 1;
             }
         }
 
@@ -222,9 +222,9 @@ class Nupud {
             number = x;
             pilt = nupupildid[x-2];
             if (number == 4 || number == 7) {
-                värv = 0;
+                varv = 0;
             } else if (number == 28 || number == 31) {
-                värv = 1;
+                varv = 1;
             }
         }
 
@@ -237,9 +237,9 @@ class Nupud {
             number = x;
             pilt = nupupildid[x-2];
             if (number == 5) {
-                värv = 0;
+                varv = 0;
             } else if (number == 29) {
-                värv = 1;
+                varv = 1;
             }
         }
 
@@ -253,9 +253,9 @@ class Nupud {
             number = x;
             pilt = nupupildid[x-2];
             if (number == 6) {
-                värv = 0;
+                varv = 0;
             } else if (number == 30) {
-                värv = 1;
+                varv = 1;
             }
         }
 

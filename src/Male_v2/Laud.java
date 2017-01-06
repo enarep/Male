@@ -10,13 +10,11 @@ import java.util.HashMap;
 
 public class Laud {
 
-                                //muutuvlaud gridpane lisada
+
     static HashMap<Integer, HBox> nupumap = Nupud.mapiNupud();
 
 
-
     Laud(){
-
 
         asetaNupud(nupumap);
 
