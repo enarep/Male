@@ -3,6 +3,7 @@ package Male_v2;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -454,7 +455,7 @@ class Aken {
 
         btn.setOnAction(event -> male(0));
         testbtn.setOnAction(event -> {
-            while(recCount < 10000){
+            while(recCount < 3000){
                 male(1);
             }
         });
@@ -494,22 +495,22 @@ class Aken {
 
         if(aktiivneNupp == 6 && kuhu1 == 1 && kuhu2 == 2){              //valge vasakule vangerdus
             Aken.muutuvlaud.getChildren().remove(nupumap.get(0));
-            Aken.muutuvlaud.add(nupumap.get(0), kuhu2, kuhu1-1);
+            Aken.muutuvlaud.add((Node) nupumap.get(0), kuhu2, kuhu1-1);
         }
 
         if(aktiivneNupp == 6 && kuhu1 == 1 && kuhu2 == 7){              //valge paremale vangerdus
             Aken.muutuvlaud.getChildren().remove(nupumap.get(7));
-            Aken.muutuvlaud.add(nupumap.get(7), kuhu2-2, kuhu1-1);
+            Aken.muutuvlaud.add((Node) nupumap.get(7), kuhu2-2, kuhu1-1);
         }
 
         if(aktiivneNupp == 30 && kuhu1 == 8 && kuhu2 == 2){              //musta vasakule vangerdus
             Aken.muutuvlaud.getChildren().remove(nupumap.get(24));
-            Aken.muutuvlaud.add(nupumap.get(24), kuhu2, kuhu1-1);
+            Aken.muutuvlaud.add((Node) nupumap.get(24), kuhu2, kuhu1-1);
         }
 
         if(aktiivneNupp == 30 && kuhu1 == 8 && kuhu2 == 7){              //musta paremale vangerdus
             Aken.muutuvlaud.getChildren().remove(nupumap.get(31));
-            Aken.muutuvlaud.add(nupumap.get(31), kuhu2-2, kuhu1-1);
+            Aken.muutuvlaud.add((Node) nupumap.get(31), kuhu2-2, kuhu1-1);
         }
 
         if(v6etavNupp != 0){
@@ -517,7 +518,7 @@ class Aken {
         }
 
         Aken.muutuvlaud.getChildren().remove(nupumap.get(aktiivneNupp-2));            //eemalda laualt
-        Aken.muutuvlaud.add(nupumap.get(aktiivneNupp-2), kuhu2-1, kuhu1-1);  //pane lauale tagasi
+        Aken.muutuvlaud.add((Node) nupumap.get(aktiivneNupp-2), kuhu2-1, kuhu1-1);  //pane lauale tagasi
 
     }
 
@@ -1110,7 +1111,7 @@ class Aken {
         return tuli;
     }
 
-    private static boolean käiguKontroll(int[] kaik2, int varv, int varv2, int kasTühiRuut,
+    private static boolean käiguKontroll(int[] kaik2, int varv, int varv2, int kasTuhiRuut,
                                          String nupp, int kuhu1, int kuhu2, int akt1, int akt2,
                                          int[][] lauaseis, int vkLiikunud, int vv1Liikunud, int vv2Liikunud,
                                          int mkLiikunud, int mv1Liikunud, int mv2Liikunud) {
@@ -1128,9 +1129,9 @@ class Aken {
                         }
                     }
 
-                    if (kaik2[1] - kaik2[0] == 10 && kasTühiRuut == 0) {  //arvutab koordinaatide järgi kas käik on võimalik
+                    if (kaik2[1] - kaik2[0] == 10 && kasTuhiRuut == 0) {  //arvutab koordinaatide järgi kas käik on võimalik
                         return true;
-                    } else if ((kaik2[1] - kaik2[0] == 9 && kasTühiRuut != 0) || (kaik2[1] - kaik2[0] == 11 && kasTühiRuut != 0)) {
+                    } else if ((kaik2[1] - kaik2[0] == 9 && kasTuhiRuut != 0) || (kaik2[1] - kaik2[0] == 11 && kasTuhiRuut != 0)) {
                         return true;
                     } else {
                         return false;
@@ -1146,7 +1147,7 @@ class Aken {
 
                     if (kaik2[0] - kaik2[1] == 10) {
                         return true;
-                    } else if ((kaik2[0] - kaik2[1] == 9 && kasTühiRuut != 0) || (kaik2[0] - kaik2[1] == 11 && kasTühiRuut != 0)) {
+                    } else if ((kaik2[0] - kaik2[1] == 9 && kasTuhiRuut != 0) || (kaik2[0] - kaik2[1] == 11 && kasTuhiRuut != 0)) {
                         return true;
                     } else {
                         return false;
@@ -1156,7 +1157,7 @@ class Aken {
 
             if (nupp.equals("ratsuKlass")) {
 
-                if ((Math.abs(kaik2[1] - kaik2[0]) == 8 || Math.abs(kaik2[1] - kaik2[0]) == 12 || Math.abs(kaik2[1] - kaik2[0]) == 19 || Math.abs(kaik2[1] - kaik2[0]) == 21) && ((varv == 0 && kasTühiRuut != 3 && kasTühiRuut != 8) || (varv == 1 && kasTühiRuut != 27 && kasTühiRuut != 32)) && varv != varv2) {  //arvutab koordinaatide järgi kas kaik on võimalik
+                if ((Math.abs(kaik2[1] - kaik2[0]) == 8 || Math.abs(kaik2[1] - kaik2[0]) == 12 || Math.abs(kaik2[1] - kaik2[0]) == 19 || Math.abs(kaik2[1] - kaik2[0]) == 21) && ((varv == 0 && kasTuhiRuut != 3 && kasTuhiRuut != 8) || (varv == 1 && kasTuhiRuut != 27 && kasTuhiRuut != 32)) && varv != varv2) {  //arvutab koordinaatide järgi kas kaik on võimalik
 
                     return true;
 
